@@ -1,0 +1,12 @@
+{
+  "name": "saudi-gold-price-today",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static Arabic (RTL) site showing live gold/silver prices in Saudi Arabia. No build step — scripts/update-prices.js fetches prices and regenerates index.html/silver.html directly.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "update-prices": "node scripts/update-prices.js"
+  }
+}

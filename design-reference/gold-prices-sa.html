@@ -1,0 +1,388 @@
+<!--
+  DESIGN REFERENCE ONLY — not served by the site.
+
+  Source: Claude Design canvas "Arabic gold and silver prices"
+  https://claude.ai/design/p/0bd58c75-d140-48bb-876c-86f52a886df6?file=Gold+Prices+SA.dc.html
+
+  This is the raw .dc.html mockup (uses the Claude Design canvas runtime —
+  <x-dc>, sc-if, support.js — none of which ships in production). It is kept
+  here as the visual source of truth (colors, typography, layout, RTL
+  structure) for building the real static index.html / silver.html.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0; -webkit-font-smoothing: antialiased;
+    font-family: 'Cairo', 'Segoe UI', sans-serif;
+    --brand: #1b8354; --brand-deep: #14663f; --brand-ink: #0f4e30;
+    --bg: #fbfaf7; --card: #ffffff; --border: #e9e4d8; --thead: #f4f2ec; --rule: #f0eee8;
+    --text: #17211c; --muted: #6d7671; --label: #5d6560;
+    --gold: #8a6512; --gold-2: #a8873a; --gold-bg: #fdf8ec; --gold-line: #eddfbc; --gold-accent: #e0b64a;
+    --silver: #3c464c; --silver-2: #6b757a; --silver-bg: #f5f6f7; --silver-line: #e0e4e6;
+    --up: #1b8354; --down: #c0392b; --up-bg: #eaf6ee; --down-bg: #fdeced;
+    --ad-bg: #f6f5f1; --ad-border: #c9c3b3; --ad-text: #8d887c;
+    background: var(--bg); color: var(--text);
+  }
+  body [data-theme="dark"], body:has([data-theme="dark"]) {
+    --bg: #0f1412; --card: #161d19; --border: #26302b; --thead: #1c2420; --rule: #222b26;
+    --text: #e9efeb; --muted: #93a09a; --label: #a8b3ad;
+    --gold: #e3ba61; --gold-2: #c19f4f; --gold-bg: #1e1a11; --gold-line: #3b3020; --gold-accent: #e0b64a;
+    --silver: #d3dade; --silver-2: #97a2a8; --silver-bg: #191f22; --silver-line: #2b3438;
+    --up: #43c185; --down: #ef6b5e; --up-bg: #12291d; --down-bg: #2c1917;
+    --ad-bg: #151b18; --ad-border: #333e38; --ad-text: #7d8a84;
+  }
+  a { color: var(--brand); text-decoration: none; }
+  a:hover { color: var(--brand-deep); text-decoration: underline; }
+</style>
+</helmet>
+
+<div dir="rtl" lang="ar" data-theme="{{ theme }}" style="min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); color: var(--text);">
+
+  <header style="background: var(--brand); color: #fff;">
+    <div style="max-width: 960px; margin: 0 auto; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(140deg,#f2d485,#b8860b); flex: none; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#0f4e30" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 16.5 9.5 10 13.5 14 21 6.5"></polyline><circle cx="9.5" cy="10" r="1.7" fill="#0f4e30" stroke="none"></circle></svg>
+        </div>
+        <div style="display: flex; flex-direction: column; line-height: 1.2;">
+          <span style="font-size: 18px; font-weight: 800; letter-spacing: -0.2px;">سعر الذهب اليوم</span>
+          <span style="font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.72);">في السعودية</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <nav style="display: flex; align-items: stretch; gap: 6px;">
+          <div onClick="{{ showGold }}" style="cursor: pointer; padding: 8px 14px; border-radius: 8px; font-size: 15px; font-weight: 600; display: flex; flex-direction: column; gap: 5px; align-items: center; color: #fff;" style-hover="background: rgba(255,255,255,0.10)">
+            <span>أسعار الذهب</span>
+            <sc-if value="{{ isGold }}" hint-placeholder-val="{{ true }}"><span style="display: block; height: 3px; width: 100%; border-radius: 2px; background: #e0b64a;"></span></sc-if>
+          </div>
+          <div onClick="{{ showSilver }}" style="cursor: pointer; padding: 8px 14px; border-radius: 8px; font-size: 15px; font-weight: 600; display: flex; flex-direction: column; gap: 5px; align-items: center; color: #fff;" style-hover="background: rgba(255,255,255,0.10)">
+            <span>أسعار الفضة</span>
+            <sc-if value="{{ isSilver }}" hint-placeholder-val="{{ false }}"><span style="display: block; height: 3px; width: 100%; border-radius: 2px; background: #cfd6d2;"></span></sc-if>
+          </div>
+        </nav>
+        <div onClick="{{ toggleTheme }}" title="الوضع الليلي" style="cursor: pointer; width: 36px; height: 36px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 17px; color: #fff;" style-hover="background: rgba(255,255,255,0.12)">{{ themeIcon }}</div>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ isGold }}" hint-placeholder-val="{{ true }}">
+  <main style="flex: 1; max-width: 960px; width: 100%; margin: 0 auto; padding: 20px 18px 40px; display: flex; flex-direction: column; gap: 22px;">
+
+    <section style="background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+        <h1 style="margin: 0; font-size: 22px; font-weight: 800; color: var(--text);">سعر أونصة الذهب اليوم في السعودية</h1>
+        <span style="font-size: 14px; color: var(--muted); font-family: 'IBM Plex Sans Arabic', sans-serif; white-space: nowrap;">الأحد 23 أغسطس 2026 — <span style="direction: ltr; unicode-bidi: isolate;">11:42</span> ص</span>
+      </div>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <div style="flex: 1 1 180px; background: var(--gold-bg); border: 1px solid var(--gold-line); border-radius: 12px; padding: 16px 18px;">
+          <div style="font-size: 13px; color: var(--gold-2); font-weight: 600; margin-bottom: 6px;">سعر الأونصة بالريال السعودي</div>
+          <div style="font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 34px; font-weight: 700; color: var(--gold); line-height: 1.1;">14,437.50 <span style="font-size: 16px; font-weight: 600; color: var(--gold-2);">﷼</span></div>
+        </div>
+        <div style="flex: 1 1 180px; background: var(--silver-bg); border: 1px solid var(--silver-line); border-radius: 12px; padding: 16px 18px;">
+          <div style="font-size: 13px; color: var(--label); font-weight: 600; margin-bottom: 6px;">سعر الأونصة بالدولار الأمريكي</div>
+          <div style="font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 34px; font-weight: 700; color: var(--brand); line-height: 1.1;">3,850.00 <span style="font-size: 16px; font-weight: 600; color: var(--muted);">$</span></div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <span style="display: inline-flex; align-items: center; gap: 6px; background: var(--up-bg); color: var(--up); border-radius: 999px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; font-family: 'IBM Plex Sans Arabic', sans-serif; white-space: nowrap;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg> <span style="direction: ltr; unicode-bidi: isolate;">0.62%</span> <span style="direction: ltr; unicode-bidi: isolate;">(+23.90 ﷼)</span></span>
+        <span style="font-size: 13px; color: var(--muted);">التغير عن إغلاق الأمس</span>
+      </div>
+      <div style="border-top: 1px solid var(--rule); padding-top: 12px; font-size: 13px; color: var(--muted); font-family: 'IBM Plex Sans Arabic', sans-serif;">آخر تحديث: 23 أغسطس 2026 — 11:42 صباحاً بتوقيت الرياض</div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <h2 style="margin: 0; font-size: 19px; font-weight: 700;">أسعار جرام الذهب اليوم</h2>
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;">
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; background: var(--thead); font-size: 13px; font-weight: 700; color: var(--label);">
+          <div style="padding: 12px 14px;">العيار</div>
+          <div style="padding: 12px 14px;">السعر بالريال</div>
+          <div style="padding: 12px 14px;">السعر بالدولار</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; background: var(--gold-bg); border-top: 2px solid var(--gold-accent); border-bottom: 1px solid var(--gold-line); font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="padding: 16px 14px; font-weight: 700; font-size: 17px; color: var(--gold);">عيار 24</div>
+          <div style="padding: 16px 14px; font-weight: 700; font-size: 20px; color: var(--gold); display: flex; align-items: center; gap: 8px;">464.20 <span style="color: var(--up); font-size: 15px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 16px 14px; font-weight: 600; font-size: 17px; color: var(--gold-2);">123.79</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; border-bottom: 1px solid var(--rule); font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="padding: 14px; font-weight: 600; font-size: 16px;">عيار 22</div>
+          <div style="padding: 14px; font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 8px;">425.55 <span style="color: var(--up); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 14px; font-size: 16px; color: var(--muted);">113.48</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; border-bottom: 1px solid var(--rule); font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="padding: 14px; font-weight: 600; font-size: 16px;">عيار 21</div>
+          <div style="padding: 14px; font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 8px;">406.18 <span style="color: var(--up); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 14px; font-size: 16px; color: var(--muted);">108.32</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; border-bottom: 1px solid var(--rule); font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="padding: 14px; font-weight: 600; font-size: 16px;">عيار 18</div>
+          <div style="padding: 14px; font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 8px;">348.15 <span style="color: var(--down); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></div>
+          <div style="padding: 14px; font-size: 16px; color: var(--muted);">92.84</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="padding: 14px; font-weight: 600; font-size: 16px;">عيار 14</div>
+          <div style="padding: 14px; font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 8px;">270.78 <span style="color: var(--down); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></div>
+          <div style="padding: 14px; font-size: 16px; color: var(--muted);">72.21</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <h2 style="margin: 0; font-size: 19px; font-weight: 700;">سعر أونصة الذهب بيع وشراء</h2>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <div style="flex: 1 1 200px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+          <span style="font-size: 15px; font-weight: 600; color: var(--label);">سعر أونصة الذهب بيع</span>
+          <span style="font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 8px;">14,462.30 ﷼ <span style="color: var(--up); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></span>
+        </div>
+        <div style="flex: 1 1 200px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+          <span style="font-size: 15px; font-weight: 600; color: var(--label);">سعر أونصة الذهب شراء</span>
+          <span style="font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 8px;">14,398.10 ﷼ <span style="color: var(--up); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></span>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{ showAds }}" hint-placeholder-val="{{ true }}">
+    <div style="border: 1px dashed var(--ad-border); border-radius: 12px; background: var(--ad-bg); height: 250px; display: flex; align-items: center; justify-content: center; color: var(--ad-text); font-size: 13px; font-family: 'IBM Plex Sans Arabic', sans-serif;">مساحة إعلانية — <span style="direction: ltr; unicode-bidi: isolate;">300×250</span></div>
+    </sc-if>
+
+    <sc-if value="{{ showHistory }}" hint-placeholder-val="{{ true }}">
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <h2 style="margin: 0; font-size: 19px; font-weight: 700;">أسعار جرام الذهب في الأيام السابقة</h2>
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; font-family: 'IBM Plex Sans Arabic', sans-serif;">
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; background: var(--thead); font-size: 12px; font-weight: 700; color: var(--label); font-family: 'Cairo', sans-serif;">
+          <div style="padding: 11px 10px;">التاريخ</div>
+          <div style="padding: 11px 10px;">عيار 24</div>
+          <div style="padding: 11px 10px;">عيار 22</div>
+          <div style="padding: 11px 10px;">عيار 21</div>
+          <div style="padding: 11px 10px;">عيار 18</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid var(--rule); font-size: 14px;">
+          <div style="padding: 12px 10px; color: var(--muted); display: flex; align-items: center; gap: 6px;">22 أغسطس <span style="color: var(--up); font-size: 12px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 12px 10px; font-weight: 600;">461.30</div>
+          <div style="padding: 12px 10px;">422.90</div>
+          <div style="padding: 12px 10px;">403.60</div>
+          <div style="padding: 12px 10px;">345.95</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid var(--rule); font-size: 14px;">
+          <div style="padding: 12px 10px; color: var(--muted); display: flex; align-items: center; gap: 6px;">21 أغسطس <span style="color: var(--up); font-size: 12px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 12px 10px; font-weight: 600;">459.75</div>
+          <div style="padding: 12px 10px;">421.45</div>
+          <div style="padding: 12px 10px;">402.30</div>
+          <div style="padding: 12px 10px;">344.80</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid var(--rule); font-size: 14px;">
+          <div style="padding: 12px 10px; color: var(--muted); display: flex; align-items: center; gap: 6px;">20 أغسطس <span style="color: var(--down); font-size: 12px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></div>
+          <div style="padding: 12px 10px; font-weight: 600;">463.10</div>
+          <div style="padding: 12px 10px;">424.55</div>
+          <div style="padding: 12px 10px;">405.20</div>
+          <div style="padding: 12px 10px;">347.30</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid var(--rule); font-size: 14px;">
+          <div style="padding: 12px 10px; color: var(--muted); display: flex; align-items: center; gap: 6px;">19 أغسطس <span style="color: var(--up); font-size: 12px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 12px 10px; font-weight: 600;">457.40</div>
+          <div style="padding: 12px 10px;">419.30</div>
+          <div style="padding: 12px 10px;">400.25</div>
+          <div style="padding: 12px 10px;">343.05</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; font-size: 14px;">
+          <div style="padding: 12px 10px; color: var(--muted); display: flex; align-items: center; gap: 6px;">18 أغسطس <span style="color: var(--down); font-size: 12px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></div>
+          <div style="padding: 12px 10px; font-weight: 600;">455.90</div>
+          <div style="padding: 12px 10px;">417.90</div>
+          <div style="padding: 12px 10px;">398.90</div>
+          <div style="padding: 12px 10px;">341.90</div>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <sc-if value="{{ showAds }}" hint-placeholder-val="{{ true }}">
+    <div style="border: 1px dashed var(--ad-border); border-radius: 12px; background: var(--ad-bg); height: 250px; display: flex; align-items: center; justify-content: center; color: var(--ad-text); font-size: 13px; font-family: 'IBM Plex Sans Arabic', sans-serif;">مساحة إعلانية — <span style="direction: ltr; unicode-bidi: isolate;">300×250</span></div>
+    </sc-if>
+
+    <p style="margin: 0; font-size: 13px; color: var(--muted); font-family: 'IBM Plex Sans Arabic', sans-serif;">آخر تحديث: الأحد 23 أغسطس 2026 — 11:42 صباحاً بتوقيت الرياض</p>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isSilver }}" hint-placeholder-val="{{ false }}">
+  <main style="flex: 1; max-width: 960px; width: 100%; margin: 0 auto; padding: 20px 18px 40px; display: flex; flex-direction: column; gap: 22px;">
+
+    <section style="background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+        <h1 style="margin: 0; font-size: 22px; font-weight: 800; color: var(--text);">سعر أونصة الفضة اليوم في السعودية</h1>
+        <span style="font-size: 14px; color: var(--muted); font-family: 'IBM Plex Sans Arabic', sans-serif; white-space: nowrap;">الأحد 23 أغسطس 2026 — <span style="direction: ltr; unicode-bidi: isolate;">11:42</span> ص</span>
+      </div>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <div style="flex: 1 1 180px; background: var(--silver-bg); border: 1px solid var(--silver-line); border-radius: 12px; padding: 16px 18px;">
+          <div style="font-size: 13px; color: var(--label); font-weight: 600; margin-bottom: 6px;">سعر الأونصة بالريال السعودي</div>
+          <div style="font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 34px; font-weight: 700; color: var(--silver); line-height: 1.1;">180.00 <span style="font-size: 16px; font-weight: 600; color: var(--silver-2);">﷼</span></div>
+        </div>
+        <div style="flex: 1 1 180px; background: var(--silver-bg); border: 1px solid var(--silver-line); border-radius: 12px; padding: 16px 18px;">
+          <div style="font-size: 13px; color: var(--label); font-weight: 600; margin-bottom: 6px;">سعر الأونصة بالدولار الأمريكي</div>
+          <div style="font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 34px; font-weight: 700; color: var(--brand); line-height: 1.1;">48.00 <span style="font-size: 16px; font-weight: 600; color: var(--muted);">$</span></div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <span style="display: inline-flex; align-items: center; gap: 6px; background: var(--down-bg); color: var(--down); border-radius: 999px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; font-family: 'IBM Plex Sans Arabic', sans-serif; white-space: nowrap;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg> <span style="direction: ltr; unicode-bidi: isolate;">0.41%</span> <span style="direction: ltr; unicode-bidi: isolate;">(−0.74 ﷼)</span></span>
+        <span style="font-size: 13px; color: var(--muted);">التغير عن إغلاق الأمس</span>
+      </div>
+      <div style="border-top: 1px solid var(--rule); padding-top: 12px; font-size: 13px; color: var(--muted); font-family: 'IBM Plex Sans Arabic', sans-serif;">آخر تحديث: 23 أغسطس 2026 — 11:42 صباحاً بتوقيت الرياض</div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <h2 style="margin: 0; font-size: 19px; font-weight: 700;">أسعار جرام الفضة اليوم</h2>
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;">
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; background: var(--thead); font-size: 13px; font-weight: 700; color: var(--label);">
+          <div style="padding: 12px 14px;">العيار</div>
+          <div style="padding: 12px 14px;">السعر بالريال</div>
+          <div style="padding: 12px 14px;">السعر بالدولار</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; background: var(--silver-bg); border-top: 2px solid var(--silver-2); border-bottom: 1px solid var(--silver-line); font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="padding: 16px 14px; font-weight: 700; font-size: 17px; color: var(--silver);">عيار 999</div>
+          <div style="padding: 16px 14px; font-weight: 700; font-size: 20px; color: var(--silver); display: flex; align-items: center; gap: 8px;">5.79 <span style="color: var(--down); font-size: 15px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></div>
+          <div style="padding: 16px 14px; font-weight: 600; font-size: 17px; color: var(--silver-2);">1.54</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; border-bottom: 1px solid var(--rule); font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="padding: 14px; font-weight: 600; font-size: 16px;">عيار 958</div>
+          <div style="padding: 14px; font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 8px;">5.55 <span style="color: var(--down); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></div>
+          <div style="padding: 14px; font-size: 16px; color: var(--muted);">1.48</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; border-bottom: 1px solid var(--rule); font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="padding: 14px; font-weight: 600; font-size: 16px;">عيار 925</div>
+          <div style="padding: 14px; font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 8px;">5.36 <span style="color: var(--up); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 14px; font-size: 16px; color: var(--muted);">1.43</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; border-bottom: 1px solid var(--rule); font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="padding: 14px; font-weight: 600; font-size: 16px;">عيار 800</div>
+          <div style="padding: 14px; font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 8px;">4.63 <span style="color: var(--down); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></div>
+          <div style="padding: 14px; font-size: 16px; color: var(--muted);">1.23</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.1fr; font-family: 'IBM Plex Sans Arabic', sans-serif;">
+          <div style="padding: 14px; font-weight: 600; font-size: 16px;">عيار 750</div>
+          <div style="padding: 14px; font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 8px;">4.34 <span style="color: var(--up); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 14px; font-size: 16px; color: var(--muted);">1.16</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <h2 style="margin: 0; font-size: 19px; font-weight: 700;">سعر أونصة الفضة بيع وشراء</h2>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <div style="flex: 1 1 200px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+          <span style="font-size: 15px; font-weight: 600; color: var(--label);">سعر أونصة الفضة بيع</span>
+          <span style="font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 8px;">181.20 ﷼ <span style="color: var(--down); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></span>
+        </div>
+        <div style="flex: 1 1 200px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+          <span style="font-size: 15px; font-weight: 600; color: var(--label);">سعر أونصة الفضة شراء</span>
+          <span style="font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 8px;">178.65 ﷼ <span style="color: var(--down); font-size: 14px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></span>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{ showAds }}" hint-placeholder-val="{{ true }}">
+    <div style="border: 1px dashed var(--ad-border); border-radius: 12px; background: var(--ad-bg); height: 250px; display: flex; align-items: center; justify-content: center; color: var(--ad-text); font-size: 13px; font-family: 'IBM Plex Sans Arabic', sans-serif;">مساحة إعلانية — <span style="direction: ltr; unicode-bidi: isolate;">300×250</span></div>
+    </sc-if>
+
+    <sc-if value="{{ showHistory }}" hint-placeholder-val="{{ true }}">
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <h2 style="margin: 0; font-size: 19px; font-weight: 700;">أسعار جرام الفضة في الأيام السابقة</h2>
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; font-family: 'IBM Plex Sans Arabic', sans-serif;">
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; background: var(--thead); font-size: 12px; font-weight: 700; color: var(--label); font-family: 'Cairo', sans-serif;">
+          <div style="padding: 11px 10px;">التاريخ</div>
+          <div style="padding: 11px 10px;">عيار 999</div>
+          <div style="padding: 11px 10px;">عيار 958</div>
+          <div style="padding: 11px 10px;">عيار 925</div>
+          <div style="padding: 11px 10px;">عيار 800</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid var(--rule); font-size: 14px;">
+          <div style="padding: 12px 10px; color: var(--muted); display: flex; align-items: center; gap: 6px;">22 أغسطس <span style="color: var(--up); font-size: 12px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 12px 10px; font-weight: 600;">5.81</div>
+          <div style="padding: 12px 10px;">5.57</div>
+          <div style="padding: 12px 10px;">5.38</div>
+          <div style="padding: 12px 10px;">4.65</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid var(--rule); font-size: 14px;">
+          <div style="padding: 12px 10px; color: var(--muted); display: flex; align-items: center; gap: 6px;">21 أغسطس <span style="color: var(--down); font-size: 12px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></div>
+          <div style="padding: 12px 10px; font-weight: 600;">5.76</div>
+          <div style="padding: 12px 10px;">5.52</div>
+          <div style="padding: 12px 10px;">5.33</div>
+          <div style="padding: 12px 10px;">4.61</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid var(--rule); font-size: 14px;">
+          <div style="padding: 12px 10px; color: var(--muted); display: flex; align-items: center; gap: 6px;">20 أغسطس <span style="color: var(--up); font-size: 12px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 12px 10px; font-weight: 600;">5.84</div>
+          <div style="padding: 12px 10px;">5.60</div>
+          <div style="padding: 12px 10px;">5.40</div>
+          <div style="padding: 12px 10px;">4.67</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; border-bottom: 1px solid var(--rule); font-size: 14px;">
+          <div style="padding: 12px 10px; color: var(--muted); display: flex; align-items: center; gap: 6px;">19 أغسطس <span style="color: var(--up); font-size: 12px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg></span></div>
+          <div style="padding: 12px 10px; font-weight: 600;">5.70</div>
+          <div style="padding: 12px 10px;">5.46</div>
+          <div style="padding: 12px 10px;">5.27</div>
+          <div style="padding: 12px 10px;">4.56</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr; font-size: 14px;">
+          <div style="padding: 12px 10px; color: var(--muted); display: flex; align-items: center; gap: 6px;">18 أغسطس <span style="color: var(--down); font-size: 12px;"><svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex: none; display: block; transform: scaleX(-1);"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg></span></div>
+          <div style="padding: 12px 10px; font-weight: 600;">5.67</div>
+          <div style="padding: 12px 10px;">5.43</div>
+          <div style="padding: 12px 10px;">5.25</div>
+          <div style="padding: 12px 10px;">4.54</div>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <p style="margin: 0; font-size: 13px; color: var(--muted); font-family: 'IBM Plex Sans Arabic', sans-serif;">آخر تحديث: الأحد 23 أغسطس 2026 — 11:42 صباحاً بتوقيت الرياض</p>
+  </main>
+  </sc-if>
+
+  <footer style="background: var(--brand-ink); color: #dfe7e2; margin-top: auto;">
+    <div style="max-width: 960px; margin: 0 auto; padding: 24px 18px 28px; display: flex; flex-direction: column; gap: 18px;">
+      <sc-if value="{{ showAds }}" hint-placeholder-val="{{ true }}">
+      <div style="border: 1px dashed rgba(255,255,255,0.28); border-radius: 12px; height: 120px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.55); font-size: 13px; font-family: 'IBM Plex Sans Arabic', sans-serif;">مساحة إعلانية — <span style="direction: ltr; unicode-bidi: isolate;">728×90</span></div>
+      </sc-if>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; font-size: 14px;">
+        <span style="color: rgba(255,255,255,0.7);">© 2026 سعر الذهب اليوم — جميع الحقوق محفوظة</span>
+        <span style="display: flex; gap: 18px;">
+          <a href="#" style="color: #e0b64a;">سياسة الخصوصية</a>
+          <a href="#" style="color: #e0b64a;">اتصل بنا</a>
+        </span>
+      </div>
+      <p style="margin: 0; font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.7;">الأسعار المعروضة إرشادية وتُحدَّث بشكل دوري، وقد تختلف عن أسعار البيع الفعلية في محلات الذهب.</p>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showAds&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showHistory&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { page: 'gold', dark: false };
+  renderVals() {
+    const dark = this.state.dark;
+    return {
+      isGold: this.state.page === 'gold',
+      isSilver: this.state.page === 'silver',
+      showGold: () => this.setState({ page: 'gold' }),
+      showSilver: () => this.setState({ page: 'silver' }),
+      theme: dark ? 'dark' : 'light',
+      themeIcon: dark ? '☀' : '☾',
+      toggleTheme: () => this.setState(s => ({ dark: !s.dark })),
+      showAds: this.props.showAds ?? true,
+      showHistory: this.props.showHistory ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

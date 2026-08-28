@@ -1,0 +1,49 @@
+name: Update prices
+
+on:
+  schedule:
+    # Matches UPDATE_INTERVAL_MINUTES=15 in .env.example. GitHub's cron
+    # scheduler isn't exact under load, so treat this as "about every 15
+    # minutes," not a guarantee. Adjust if your Metal Sentinel quota needs a
+    # different cadence.
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+
+# Public repo => unlimited free Actions minutes, and no separate "build"
+# system to rate-limit against (GitHub Pages just serves whatever's
+# committed here, no CI build step of its own).
+permissions:
+  contents: write
+
+# Runs queue instead of overlapping, in case one run ever takes longer than
+# the schedule interval.
+concurrency:
+  group: update-prices
+  cancel-in-progress: false
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch prices and regenerate site
+        env:
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          USD_SAR_RATE: '3.75'
+          SITE_URL: 'https://dhahabksa.com'
+        run: node scripts/update-prices.js
+
+      - name: Commit and push if prices changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add prices.json index.html silver.html sitemap.xml
+          git diff --staged --quiet || git commit -m "chore: update gold/silver prices [skip ci]"
+          git push

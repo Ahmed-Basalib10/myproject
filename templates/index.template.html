@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<!--
+  SOURCE TEMPLATE — this file is never overwritten. scripts/update-prices.js
+  reads it, replaces every {{TOKEN}}, and writes the result to ../index.html
+  (which IS overwritten, in full, on every run). Edit markup/structure here;
+  never edit ../index.html directly, since the next run will discard it.
+
+  TOKEN REFERENCE — replaced by scripts/update-prices.js on every run.
+  Do not hand-edit values below; edit the surrounding markup instead, the
+  script only does a literal string replace of these {{TOKENS}}.
+
+  Spot / hero:
+    {{GOLD_OUNCE_SAR}}         {{GOLD_OUNCE_USD}}
+    {{GOLD_CHANGE_TREND}}      "up" | "down"
+    {{GOLD_CHANGE_PERCENT}}    e.g. "0.62%"
+    {{GOLD_CHANGE_SAR}}        signed, e.g. "+23.90 ﷼" / "-12.10 ﷼"
+    {{LAST_UPDATE_DATE_AR}}    e.g. "الأحد 23 أغسطس 2026"
+    {{LAST_UPDATE_TIME_AR}}    e.g. "11:42"
+    {{LAST_UPDATE_AMPM_AR}}    "ص" | "م"
+    (these three feed both the "آخر تحديث" line, where they're authoritative,
+    and the #live-clock element's initial markup — assets/js/clock.js
+    overwrites #live-clock on load with the real current Asia/Riyadh time and
+    keeps ticking it, so the baked value there is only a no-JS/SEO fallback)
+
+  Gram prices per karat (24/22/21/18/14):
+    {{GOLD_24K_SAR}} {{GOLD_24K_USD}} {{GOLD_24K_TREND}}
+    {{GOLD_22K_SAR}} {{GOLD_22K_USD}} {{GOLD_22K_TREND}}
+    {{GOLD_21K_SAR}} {{GOLD_21K_USD}} {{GOLD_21K_TREND}}
+    {{GOLD_18K_SAR}} {{GOLD_18K_USD}} {{GOLD_18K_TREND}}
+    {{GOLD_14K_SAR}} {{GOLD_14K_USD}} {{GOLD_14K_TREND}}
+
+  Ounce buy/sell:
+    {{GOLD_OUNCE_SELL_SAR}} {{GOLD_OUNCE_SELL_TREND}}
+    {{GOLD_OUNCE_BUY_SAR}}  {{GOLD_OUNCE_BUY_TREND}}
+
+  Market buy/sell per gram (22/21/18) — ESTIMATED, see disclaimer in markup:
+    {{GOLD_22K_SELL_USED_SAR}} {{GOLD_22K_BUY_NEW_SAR}}
+    {{GOLD_21K_SELL_USED_SAR}} {{GOLD_21K_BUY_NEW_SAR}}
+    {{GOLD_18K_SELL_USED_SAR}} {{GOLD_18K_BUY_NEW_SAR}}
+
+  History table (5-day rolling), one block token:
+    {{HISTORY_ROWS}} — replaced with N repetitions of a <tr> fragment (see
+    the commented example row left in place inside <tbody> below, which is
+    the exact shape the script should clone). Updated once/day, not every
+    cron run.
+
+  SEO / structured data:
+    {{DATE_MODIFIED_ISO}}   e.g. "2026-08-23T11:42:00+03:00"
+    {{PRICE_VALID_UNTIL}}   ISO date, required by Google for Offer rich results
+    {{CANONICAL_URL}}       full absolute URL of this page
+
+  TODO before going live: replace the CANONICAL_URL placeholder domain below
+  with the real production domain (also update sitemap.xml / robots.txt).
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>سعر الذهب اليوم في السعودية | تحديث لحظي بالريال والدولار</title>
+<meta name="description" content="تابع سعر الذهب اليوم في السعودية لحظياً بالريال السعودي والدولار الأمريكي لعيار 24 و22 و21 و18 و14، مع سعر الأونصة وأسعار البيع والشراء، ويُحدَّث كل عدة ساعات.">
+<link rel="canonical" href="{{CANONICAL_URL}}">
+<meta name="robots" content="index, follow">
+
+<!-- Apply saved theme before first paint to avoid a flash of the wrong theme -->
+<script>
+  (function () {
+    try {
+      const t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "سعر الذهب اليوم في السعودية",
+  "url": "{{CANONICAL_URL}}",
+  "dateModified": "{{DATE_MODIFIED_ISO}}",
+  "mainEntity": {
+    "@type": "Product",
+    "name": "الذهب عيار 24 (سعر الجرام)",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "SAR",
+      "price": "{{GOLD_24K_SAR}}",
+      "priceValidUntil": "{{PRICE_VALID_UNTIL}}",
+      "availability": "https://schema.org/InStock",
+      "url": "{{CANONICAL_URL}}"
+    }
+  }
+}
+</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="brand">
+      <div class="brand__mark" aria-hidden="true">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#0f4e30" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 16.5 9.5 10 13.5 14 21 6.5"></polyline><circle cx="9.5" cy="10" r="1.7" fill="#0f4e30" stroke="none"></circle></svg>
+      </div>
+      <div class="brand__text">
+        <span class="brand__title">سعر الذهب اليوم</span>
+        <span class="brand__subtitle">في السعودية</span>
+      </div>
+    </div>
+    <div class="header-controls">
+      <nav class="main-nav" aria-label="الأقسام الرئيسية">
+        <a href="index.html" class="main-nav__link is-active" aria-current="page">
+          <span>أسعار الذهب</span>
+          <span class="main-nav__underline" aria-hidden="true"></span>
+        </a>
+        <a href="silver.html" class="main-nav__link">
+          <span>أسعار الفضة</span>
+          <span class="main-nav__underline" aria-hidden="true"></span>
+        </a>
+      </nav>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="true" aria-label="تبديل المظهر بين الوضع الفاتح والداكن">
+        <span data-theme-icon aria-hidden="true">☀</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <section class="card hero" aria-labelledby="hero-title">
+    <div class="hero__top">
+      <h1 id="hero-title" class="hero__title">سعر أونصة الذهب اليوم في السعودية</h1>
+      <span id="live-clock" class="hero__datetime num">{{LAST_UPDATE_DATE_AR}} — <span class="ltr">{{LAST_UPDATE_TIME_AR}}</span> {{LAST_UPDATE_AMPM_AR}}</span>
+    </div>
+    <div class="hero__prices">
+      <div class="price-box price-box--metal">
+        <div class="price-box__label">سعر الأونصة بالريال السعودي</div>
+        <div class="price-box__value num">{{GOLD_OUNCE_SAR}} <span class="price-box__unit">﷼</span></div>
+      </div>
+      <div class="price-box price-box--usd">
+        <div class="price-box__label">سعر الأونصة بالدولار الأمريكي</div>
+        <div class="price-box__value num">{{GOLD_OUNCE_USD}} <span class="price-box__unit">$</span></div>
+      </div>
+    </div>
+    <div class="change-row">
+      <span class="change-badge change-badge--{{GOLD_CHANGE_TREND}} num">
+        <span class="trend-icon-wrap trend-icon-wrap--{{GOLD_CHANGE_TREND}}" aria-hidden="true">
+          <svg class="trend-icon trend-icon--up" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+          <svg class="trend-icon trend-icon--down" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+        </span>
+        <span class="ltr">{{GOLD_CHANGE_PERCENT}}</span>
+        <span class="ltr">({{GOLD_CHANGE_SAR}})</span>
+      </span>
+      <span class="change-row__caption">التغير عن إغلاق الأمس</span>
+    </div>
+    <div class="hero__updated num">آخر تحديث: {{LAST_UPDATE_DATE_AR}} — {{LAST_UPDATE_TIME_AR}} {{LAST_UPDATE_AMPM_AR}}اً بتوقيت الرياض</div>
+  </section>
+
+  <section class="section" aria-labelledby="gram-prices-title">
+    <h2 id="gram-prices-title" class="section__title">أسعار جرام الذهب اليوم</h2>
+    <div class="card table-scroll">
+      <table class="data-table data-table--gold">
+        <caption class="sr-only">أسعار جرام الذهب اليوم بالريال والدولار حسب العيار</caption>
+        <thead>
+          <tr>
+            <th scope="col">العيار</th>
+            <th scope="col">السعر بالريال</th>
+            <th scope="col">السعر بالدولار</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="is-featured">
+            <th scope="row">عيار 24</th>
+            <td class="price-table__sar num">
+              <span class="cell-value">
+                {{GOLD_24K_SAR}}
+                <span class="trend-icon-wrap trend-icon-wrap--{{GOLD_24K_TREND}}" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+              </span>
+            </td>
+            <td class="price-table__usd num">{{GOLD_24K_USD}}</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 22</th>
+            <td class="price-table__sar num">
+              <span class="cell-value">
+                {{GOLD_22K_SAR}}
+                <span class="trend-icon-wrap trend-icon-wrap--{{GOLD_22K_TREND}}" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+              </span>
+            </td>
+            <td class="price-table__usd num">{{GOLD_22K_USD}}</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 21</th>
+            <td class="price-table__sar num">
+              <span class="cell-value">
+                {{GOLD_21K_SAR}}
+                <span class="trend-icon-wrap trend-icon-wrap--{{GOLD_21K_TREND}}" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+              </span>
+            </td>
+            <td class="price-table__usd num">{{GOLD_21K_USD}}</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 18</th>
+            <td class="price-table__sar num">
+              <span class="cell-value">
+                {{GOLD_18K_SAR}}
+                <span class="trend-icon-wrap trend-icon-wrap--{{GOLD_18K_TREND}}" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+              </span>
+            </td>
+            <td class="price-table__usd num">{{GOLD_18K_USD}}</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 14</th>
+            <td class="price-table__sar num">
+              <span class="cell-value">
+                {{GOLD_14K_SAR}}
+                <span class="trend-icon-wrap trend-icon-wrap--{{GOLD_14K_TREND}}" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+              </span>
+            </td>
+            <td class="price-table__usd num">{{GOLD_14K_USD}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ounce-buysell-title">
+    <h2 id="ounce-buysell-title" class="section__title">سعر أونصة الذهب بيع وشراء</h2>
+    <div class="buysell-row">
+      <div class="card buysell-card">
+        <span class="buysell-card__label">سعر أونصة الذهب بيع</span>
+        <span class="buysell-card__value num">
+          {{GOLD_OUNCE_SELL_SAR}} ﷼
+          <span class="trend-icon-wrap trend-icon-wrap--{{GOLD_OUNCE_SELL_TREND}}" aria-hidden="true">
+            <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+            <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+          </span>
+        </span>
+      </div>
+      <div class="card buysell-card">
+        <span class="buysell-card__label">سعر أونصة الذهب شراء</span>
+        <span class="buysell-card__value num">
+          {{GOLD_OUNCE_BUY_SAR}} ﷼
+          <span class="trend-icon-wrap trend-icon-wrap--{{GOLD_OUNCE_BUY_TREND}}" aria-hidden="true">
+            <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+            <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+          </span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <div id="ad-slot-1" class="ad-slot" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">300×250</span></div>
+
+  <section class="section" aria-labelledby="market-prices-title">
+    <h2 id="market-prices-title" class="section__title">أسعار السوق (بيع مستعمل وشراء جديد)</h2>
+    <!--
+      ESTIMATE, NOT VERIFIED MARKET DATA. Placeholder markup logic per
+      scripts/update-prices.js, to be replaced with real Saudi market
+      percentages once known:
+        بيع مستعمل (sell used) = سعر الجرام الفوري − 5 ريال ثابت
+        شراء جديد  (buy new)   = سعر الجرام الفوري + هامش تقديري:
+                                   عيار 22 ‎+17%‎، عيار 21 ‎+18%‎، عيار 18 ‎+34%‎
+    -->
+    <div class="card table-scroll">
+      <table class="data-table data-table--gold">
+        <caption class="sr-only">أسعار بيع الذهب المستعمل وشراء الذهب الجديد تقديرياً حسب العيار</caption>
+        <thead>
+          <tr>
+            <th scope="col">العيار</th>
+            <th scope="col">بيع مستعمل</th>
+            <th scope="col">شراء جديد</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">عيار 22</th>
+            <td class="num">{{GOLD_22K_SELL_USED_SAR}} ﷼</td>
+            <td class="num">{{GOLD_22K_BUY_NEW_SAR}} ﷼</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 21</th>
+            <td class="num">{{GOLD_21K_SELL_USED_SAR}} ﷼</td>
+            <td class="num">{{GOLD_21K_BUY_NEW_SAR}} ﷼</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 18</th>
+            <td class="num">{{GOLD_18K_SELL_USED_SAR}} ﷼</td>
+            <td class="num">{{GOLD_18K_BUY_NEW_SAR}} ﷼</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="market-table__note">* أسعار البيع والشراء أعلاه تقديرية بهامش افتراضي وقد تختلف عن أسعار محلات الذهب الفعلية.</p>
+  </section>
+
+  <section class="section" aria-labelledby="history-title">
+    <h2 id="history-title" class="section__title">أسعار جرام الذهب في الأيام السابقة</h2>
+    <div class="card table-scroll">
+      <table class="data-table data-table--gold">
+        <caption class="sr-only">أسعار جرام الذهب لآخر خمسة أيام حسب العيار</caption>
+        <thead>
+          <tr>
+            <th scope="col">التاريخ</th>
+            <th scope="col">عيار 24</th>
+            <th scope="col">عيار 22</th>
+            <th scope="col">عيار 21</th>
+            <th scope="col">عيار 18</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--
+            {{HISTORY_ROWS}} block token: scripts/update-prices.js replaces
+            this entire comment+row pair with up to 5 <tr> rows (most recent
+            first), each shaped exactly like the example row below:
+
+            <tr>
+              <th scope="row" class="history-table__date num">
+                <span class="cell-value">22 أغسطس
+                  <span class="trend-icon-wrap trend-icon-wrap--up" aria-hidden="true">...up/down svgs...</span>
+                </span>
+              </th>
+              <td class="history-table__cell--main num">461.30</td>
+              <td class="num">422.90</td>
+              <td class="num">403.60</td>
+              <td class="num">345.95</td>
+            </tr>
+          -->
+          {{HISTORY_ROWS}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div id="ad-slot-2" class="ad-slot" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">300×250</span></div>
+
+  <p class="updated-note num">آخر تحديث: {{LAST_UPDATE_DATE_AR}} — {{LAST_UPDATE_TIME_AR}} {{LAST_UPDATE_AMPM_AR}}اً بتوقيت الرياض</p>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div id="ad-slot-3" class="ad-slot ad-slot--banner" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">728×90</span></div>
+    <div class="site-footer__brand">
+      <div class="brand__mark brand__mark--sm" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f4e30" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 16.5 9.5 10 13.5 14 21 6.5"></polyline><circle cx="9.5" cy="10" r="1.7" fill="#0f4e30" stroke="none"></circle></svg>
+      </div>
+      <div class="brand__text">
+        <span class="brand__title">سعر الذهب اليوم</span>
+        <span class="brand__subtitle">في السعودية</span>
+      </div>
+    </div>
+    <div class="site-footer__row">
+      <span class="site-footer__copy">© 2026 سعر الذهب اليوم — جميع الحقوق محفوظة</span>
+    </div>
+    <p class="site-footer__disclaimer">الأسعار المعروضة إرشادية وتُحدَّث بشكل دوري، وقد تختلف عن أسعار البيع الفعلية في محلات الذهب.</p>
+  </div>
+</footer>
+
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/clock.js"></script>
+</body>
+</html>

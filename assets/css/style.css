@@ -1,0 +1,786 @@
+/* ==========================================================================
+   سعر الذهب اليوم — shared stylesheet for index.html / silver.html
+   Ported from the Claude Design mockup (design-reference/gold-prices-sa.html)
+
+   Structure of this file:
+   1. Design tokens (color, spacing, radius) — colors are WCAG AA verified,
+      see the contrast notes next to any value that was adjusted from the
+      original mockup.
+   2. Base/reset
+   3. Accessibility utilities (skip link, sr-only, focus-visible)
+   4. Components, written mobile-first: unprefixed rules are the small-screen
+      baseline, min-width media queries layer on enhancements for larger
+      viewports. There is no max-width query in this file.
+   ========================================================================== */
+
+:root {
+  /* ---- Color: brand ---- */
+  --brand: #1b8354;
+  --brand-deep: #14663f;
+  --brand-ink: #0f4e30;
+
+  /* ---- Color: surfaces ---- */
+  --bg: #fbfaf7;
+  --card: #ffffff;
+  --border: #e9e4d8;
+  --thead: #f4f2ec;
+  --rule: #f0eee8;
+
+  /* ---- Color: text ---- */
+  --text: #17211c;
+  --muted: #626a65;      /* darkened from mockup's #6d7671 — 4.49:1 on --bg failed AA, this is 5.34:1 */
+  --label: #5d6560;
+
+  /* ---- Color: links (kept separate from --brand, which also has to work
+     as a large decorative fill / 34px price color where AA's large-text
+     3:1 floor is enough — links need the stricter 4.5:1 normal-text floor) */
+  --link: #1b8354;
+  --link-hover: #14663f;
+
+  /* ---- Color: gold ---- */
+  --gold: #8a6512;
+  --gold-2: #7e652b;     /* darkened from mockup's #a8873a — 3.20:1 on --gold-bg failed AA, this is 5.24:1 */
+  --gold-bg: #fdf8ec;
+  --gold-line: #eddfbc;
+  --gold-accent: #e0b64a;
+
+  /* ---- Color: silver ---- */
+  --silver: #3c464c;
+  --silver-2: #60696d;   /* darkened from mockup's #6b757a — 4.36:1 on --silver-bg failed AA, this is 5.19:1 */
+  --silver-bg: #f5f6f7;
+  --silver-line: #e0e4e6;
+
+  /* ---- Color: trend / status ---- */
+  --up: #18754b;         /* darkened from mockup's #1b8354 — 4.28:1 on --up-bg failed AA, this is 5.13:1 */
+  --down: #c0392b;
+  --up-bg: #eaf6ee;
+  --down-bg: #fdeced;
+
+  /* ---- Color: ad placeholders ---- */
+  --ad-bg: #f6f5f1;
+  --ad-border: #c9c3b3;
+  --ad-text: #69665d;    /* darkened from mockup's #8d887c — 3.24:1 on --ad-bg failed AA, this is 5.26:1 */
+
+  /* ---- Spacing scale (4px base) ---- */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+
+  /* ---- Radius scale ---- */
+  --radius-sm: 0.5rem;   /* 8px */
+  --radius-md: 0.625rem; /* 10px */
+  --radius-lg: 0.75rem;  /* 12px */
+  --radius-xl: 0.875rem; /* 14px */
+  --radius-pill: 999px;
+
+  /* ---- Layout ---- */
+  --content-width: 60rem; /* 960px */
+}
+
+:root[data-theme="dark"] {
+  --bg: #0f1412;
+  --card: #161d19;
+  --border: #26302b;
+  --thead: #1c2420;
+  --rule: #222b26;
+  --text: #e9efeb;
+  --muted: #93a09a;
+  --label: #a8b3ad;
+
+  --link: #43c185;       /* --brand (#1b8354) on dark cards is only 3.61:1 — too low for link text, use the lighter dark "up" green instead */
+  --link-hover: #43c185;
+
+  --gold: #e3ba61;
+  --gold-2: #c19f4f;
+  --gold-bg: #1e1a11;
+  --gold-line: #3b3020;
+  --gold-accent: #e0b64a;
+  --silver: #d3dade;
+  --silver-2: #97a2a8;
+  --silver-bg: #191f22;
+  --silver-line: #2b3438;
+  --up: #43c185;
+  --down: #ef6b5e;
+  --up-bg: #12291d;
+  --down-bg: #2c1917;
+  --ad-bg: #151b18;
+  --ad-border: #333e38;
+  --ad-text: #7d8a84;
+}
+
+/* ---------- Reset ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html, body { margin: 0; padding: 0; }
+
+/* Safety net: nothing on the page should ever be able to force horizontal
+   scroll (it's applied to html, not body, to avoid a long-standing iOS
+   Safari bug where overflow:hidden on body plus position:fixed elements —
+   we have one, .skip-link — causes jumpy scrolling). This doesn't fix
+   overflow causes, it just contains them; the actual fixes are wrapping
+   the specific elements that were overflowing (see .hero__datetime and
+   .change-badge below) and overflow-wrap on body as a generic fallback. */
+html { overflow-x: hidden; }
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Cairo', 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+img, svg { max-width: 100%; }
+
+a { color: var(--link); text-decoration: none; }
+a:hover { color: var(--link-hover); text-decoration: underline; }
+
+.num { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+.ltr { direction: ltr; unicode-bidi: isolate; }
+
+/* ---------- Accessibility utilities ---------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0;
+  inset-inline-start: 0;
+  z-index: 1000;
+  transform: translateY(-100%);
+  background: var(--card);
+  color: var(--text);
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--link);
+  border-top: none;
+  border-end-end-radius: var(--radius-sm);
+  font-weight: 700;
+  transition: transform 0.15s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* dark, saturated backgrounds (header/footer) need a lighter ring to stay visible */
+.site-header :focus-visible,
+.site-footer :focus-visible {
+  outline-color: #ffffff;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  background: var(--brand);
+  color: #fff;
+}
+
+.site-header__inner {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.brand__mark {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(140deg, #f2d485, #b8860b);
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.brand__mark--sm {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-md);
+}
+
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand__title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+
+.brand__subtitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff; /* solid, not translucent — rgba(255,255,255,.72) measured 3.25:1, fails AA */
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.main-nav {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-1);
+}
+
+.main-nav__link {
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  min-height: 2.75rem; /* comfortable touch target */
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.main-nav__link:hover {
+  background: rgba(255, 255, 255, 0.10);
+  text-decoration: none;
+}
+
+.main-nav__underline {
+  display: block;
+  height: 3px;
+  width: 100%;
+  border-radius: 2px;
+  background: transparent;
+}
+
+/* solid near-opaque white, not the mockup's gold (#e0b64a on green measured
+   2.48:1 — fails the 3:1 floor for a UI state indicator) */
+.main-nav__link.is-active {
+  font-weight: 800;
+}
+.main-nav__link.is-active .main-nav__underline {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.theme-toggle {
+  cursor: pointer;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.0625rem;
+  color: #fff;
+}
+
+.theme-toggle:hover { background: rgba(255, 255, 255, 0.12); }
+
+/* ---------- Layout ---------- */
+
+main {
+  flex: 1;
+  max-width: var(--content-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+@media (min-width: 40rem) {
+  main {
+    padding: var(--space-5) var(--space-4) var(--space-10);
+    gap: var(--space-6);
+  }
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+}
+
+/* ---------- Hero (spot price) ---------- */
+
+.hero {
+  padding: var(--space-4) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+@media (min-width: 40rem) {
+  .hero { padding: var(--space-6) var(--space-5); }
+}
+
+.hero__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+@media (min-width: 30rem) {
+  .hero__top {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+}
+
+.hero__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+@media (min-width: 40rem) {
+  .hero__title { font-size: 1.375rem; }
+}
+
+.hero__datetime {
+  font-size: 0.875rem;
+  color: var(--muted);
+  /* no white-space:nowrap — the text has natural word breaks (date, "—",
+     time, ص/م) and should wrap on narrow screens rather than force the
+     page wider */
+}
+
+.hero__prices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 26rem) {
+  .hero__prices { flex-direction: row; flex-wrap: wrap; }
+}
+
+.price-box {
+  flex: 1 1 11rem;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.price-box--metal {
+  background: var(--gold-bg);
+  border: 1px solid var(--gold-line);
+}
+.price-box--metal.price-box--silver-metal {
+  background: var(--silver-bg);
+  border: 1px solid var(--silver-line);
+}
+
+.price-box--usd {
+  background: var(--silver-bg);
+  border: 1px solid var(--silver-line);
+}
+
+.price-box__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+  color: var(--label);
+}
+.price-box--metal .price-box__label { color: var(--gold-2); }
+.price-box--metal.price-box--silver-metal .price-box__label { color: var(--label); }
+
+.price-box__value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+@media (min-width: 30rem) {
+  .price-box__value { font-size: 2.125rem; }
+}
+
+.price-box--metal .price-box__value { color: var(--gold); }
+.price-box--metal.price-box--silver-metal .price-box__value { color: var(--silver); }
+.price-box--usd .price-box__value { color: var(--brand); } /* 34px+ qualifies as large text (3:1 floor); still 4.55:1+ in both themes */
+
+.price-box__unit {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gold-2);
+}
+.price-box--usd .price-box__unit { color: var(--muted); }
+
+.change-badge {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  font-weight: 700;
+  /* no white-space:nowrap on the badge itself — its three children (icon,
+     percent, amount) each stay intact, but flex-wrap lets them drop to a
+     second line inside the pill instead of the badge refusing to shrink
+     below its full-line width and overflowing the page */
+}
+
+.change-badge--up { background: var(--up-bg); color: var(--up); }
+.change-badge--down { background: var(--down-bg); color: var(--down); }
+
+.change-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.change-row__caption {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.hero__updated {
+  border-top: 1px solid var(--rule);
+  padding-top: var(--space-3);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* ---------- Trend arrow ----------
+   Each instance renders both an "up" and a "down" glyph (their paths differ,
+   it's not a simple rotation) and CSS shows only the one matching the
+   wrapper's modifier class — the token just swaps "up"/"down" on the wrapper.
+   The icon is purely decorative: the adjacent text (percent/amount, or the
+   up/down colored number itself) already conveys direction, so every icon
+   is rendered aria-hidden in markup. */
+
+.trend-icon-wrap {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.trend-icon {
+  flex: none;
+  display: none;
+  transform: scaleX(-1);
+}
+
+.trend-icon-wrap--up .trend-icon--up { display: block; color: var(--up); }
+.trend-icon-wrap--down .trend-icon--down { display: block; color: var(--down); }
+
+/* ---------- Section heading ---------- */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.section__title {
+  margin: 0;
+  font-size: 1.1875rem;
+  font-weight: 700;
+}
+
+/* ---------- Data tables (gram prices / market buy-sell / history) ----------
+   Real <table> markup (thead/th scope, tbody/th scope=row) so screen readers
+   can announce row/column headers — the original mockup used CSS-grid divs,
+   which carry no table semantics (fails WCAG 1.3.1).
+
+   Sizing is mobile-first and scales as one system: .data-table sets the
+   base font-size per breakpoint, every nested price/label size below is an
+   `em` multiple of that (not a fixed rem), so shrinking the table font on
+   small screens shrinks everything proportionally — headers, row labels,
+   featured-row emphasis, even the trend-icon SVGs (their width/height are
+   em-based) — instead of only some pieces. That's what keeps a 5-column
+   table (the history table) fitting on a 360px phone without needing to
+   scroll: .table-scroll is kept only as a defensive fallback for unusually
+   long content, not as the intended mobile layout. */
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.6875rem; /* 11px */
+}
+
+@media (min-width: 26rem) {
+  .data-table { font-size: 0.75rem; } /* 12px, ~400px+ */
+}
+
+@media (min-width: 30rem) {
+  .data-table { font-size: 0.8125rem; } /* 13px, ~480px+ */
+}
+
+@media (min-width: 40rem) {
+  .data-table { font-size: 0.875rem; } /* 14px, ~640px+ desktop */
+}
+
+.data-table caption {
+  text-align: start;
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--space-2) var(--space-1);
+  text-align: start;
+  font-weight: 400;
+}
+
+@media (min-width: 26rem) {
+  .data-table th,
+  .data-table td { padding: var(--space-2) var(--space-2); }
+}
+
+@media (min-width: 30rem) {
+  .data-table th,
+  .data-table td { padding: var(--space-3) var(--space-4); }
+}
+
+.data-table thead th {
+  background: var(--thead);
+  font-size: 0.95em;
+  font-weight: 700;
+  color: var(--label);
+}
+
+.data-table tbody tr:not(:last-child) > * {
+  border-bottom: 1px solid var(--rule);
+}
+
+.data-table tbody th[scope="row"] {
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.data-table tbody tr.is-featured > * {
+  background: var(--gold-bg);
+  border-top: 2px solid var(--gold-accent);
+  border-bottom: 1px solid var(--gold-line);
+}
+.data-table--silver tbody tr.is-featured > * {
+  background: var(--silver-bg);
+  border-top: 2px solid var(--silver-2);
+  border-bottom: 1px solid var(--silver-line);
+}
+
+.data-table tbody tr.is-featured th[scope="row"] {
+  font-weight: 700;
+  font-size: 1.1em;
+  color: var(--gold);
+}
+.data-table--silver tbody tr.is-featured th[scope="row"] { color: var(--silver); }
+
+/* price-table__sar and history-table__date are on the <td>/<th> itself —
+   deliberately NOT display:flex. A flex container replaces the cell's
+   normal text-align:start (the same alignment every other cell in these
+   tables correctly uses) with flexbox's own justify-content positioning,
+   which does not track RTL the same intuitive way and left a visible gap
+   on the wrong side in testing. The number/date text and its trend icon
+   are instead wrapped in an inner .cell-value span (inline-flex, sized to
+   its own content, not the cell) — that inner pairing still lines up
+   correctly, while the outer cell positions it exactly like plain text. */
+
+.price-table__sar {
+  font-weight: 700;
+  font-size: 1.15em;
+}
+.data-table tbody tr.is-featured .price-table__sar {
+  font-size: 1.3em;
+  color: var(--gold);
+}
+.data-table--silver tbody tr.is-featured .price-table__sar { color: var(--silver); }
+
+.price-table__usd { color: var(--muted); }
+.data-table tbody tr.is-featured .price-table__usd {
+  font-weight: 600;
+  font-size: 1.1em;
+  color: var(--gold-2);
+}
+.data-table--silver tbody tr.is-featured .price-table__usd { color: var(--silver-2); }
+
+.history-table__date {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.cell-value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  white-space: nowrap;
+}
+
+.history-table__cell--main { font-weight: 600; }
+
+.market-table__note {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--ad-text);
+  line-height: 1.7;
+}
+
+/* ---------- Buy/sell mini cards ---------- */
+
+.buysell-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 26rem) {
+  .buysell-row { flex-direction: row; flex-wrap: wrap; }
+}
+
+.buysell-card {
+  flex: 1 1 11rem;
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.buysell-card__label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--label);
+}
+
+.buysell-card__value {
+  font-size: 1.1875rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ---------- Ad slots ---------- */
+
+.ad-slot {
+  border: 1px dashed var(--ad-border);
+  border-radius: var(--radius-lg);
+  background: var(--ad-bg);
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ad-text);
+  font-size: 0.8125rem;
+  text-align: center;
+  padding: var(--space-3);
+}
+
+.ad-slot--banner {
+  min-height: 90px;
+  border-color: rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ---------- Footer note ---------- */
+
+.updated-note {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  background: var(--brand-ink);
+  color: #dfe7e2;
+  margin-top: auto;
+}
+
+.site-footer__inner {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.site-footer__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.site-footer__brand .brand__title { font-size: 0.9375rem; }
+.site-footer__brand .brand__subtitle { color: rgba(255, 255, 255, 0.65); }
+
+.site-footer__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.site-footer__copy { color: rgba(255, 255, 255, 0.7); }
+
+.site-footer__disclaimer {
+  margin: 0;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.65); /* was 0.5 — measured 3.70:1, fails AA; 0.65 is 5.13:1 */
+  line-height: 1.7;
+  text-align: center;
+}

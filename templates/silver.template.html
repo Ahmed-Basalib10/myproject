@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<!--
+  SOURCE TEMPLATE — this file is never overwritten. scripts/update-prices.js
+  reads it, replaces every {{TOKEN}}, and writes the result to ../silver.html
+  (which IS overwritten, in full, on every run). Edit markup/structure here;
+  never edit ../silver.html directly, since the next run will discard it.
+
+  TOKEN REFERENCE — mirrors index.template.html, see that file's head
+  comment for the full convention. Silver uses purity/fineness
+  (999/958/925/800/750) instead of karats.
+
+  Spot / hero:
+    {{SILVER_OUNCE_SAR}} {{SILVER_OUNCE_USD}}
+    {{SILVER_CHANGE_TREND}} {{SILVER_CHANGE_PERCENT}} {{SILVER_CHANGE_SAR}}
+    {{LAST_UPDATE_DATE_AR}} {{LAST_UPDATE_TIME_AR}} {{LAST_UPDATE_AMPM_AR}}
+    (see index.html's head comment: these feed both the static "آخر تحديث"
+    line and the #live-clock fallback markup — assets/js/clock.js overwrites
+    #live-clock with the real ticking Asia/Riyadh time on load)
+
+  Gram prices per purity:
+    {{SILVER_999_SAR}} {{SILVER_999_USD}} {{SILVER_999_TREND}}
+    {{SILVER_958_SAR}} {{SILVER_958_USD}} {{SILVER_958_TREND}}
+    {{SILVER_925_SAR}} {{SILVER_925_USD}} {{SILVER_925_TREND}}
+    {{SILVER_800_SAR}} {{SILVER_800_USD}} {{SILVER_800_TREND}}
+    {{SILVER_750_SAR}} {{SILVER_750_USD}} {{SILVER_750_TREND}}
+
+  Ounce buy/sell:
+    {{SILVER_OUNCE_SELL_SAR}} {{SILVER_OUNCE_SELL_TREND}}
+    {{SILVER_OUNCE_BUY_SAR}}  {{SILVER_OUNCE_BUY_TREND}}
+
+  Market buy/sell per gram (958/925/800/750) — ESTIMATED, percentages TBD
+  (user has not supplied verified silver markup %, unlike gold):
+    {{SILVER_958_SELL_USED_SAR}} {{SILVER_958_BUY_NEW_SAR}}
+    {{SILVER_925_SELL_USED_SAR}} {{SILVER_925_BUY_NEW_SAR}}
+    {{SILVER_800_SELL_USED_SAR}} {{SILVER_800_BUY_NEW_SAR}}
+    {{SILVER_750_SELL_USED_SAR}} {{SILVER_750_BUY_NEW_SAR}}
+
+  History table (5-day rolling), one block token:
+    {{HISTORY_ROWS}} — same convention as index.html, columns are
+    999/958/925/800 (see the commented example row inside <tbody> below).
+
+  SEO / structured data:
+    {{DATE_MODIFIED_ISO}} {{PRICE_VALID_UNTIL}} {{CANONICAL_URL}}
+
+  TODO before going live: replace the CANONICAL_URL placeholder domain below.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>سعر الفضة اليوم في السعودية | تحديث لحظي بالريال والدولار</title>
+<meta name="description" content="تابع سعر الفضة اليوم في السعودية لحظياً بالريال السعودي والدولار الأمريكي لعيار 999 و958 و925 و800 و750، مع سعر الأونصة وأسعار البيع والشراء، ويُحدَّث كل عدة ساعات.">
+<link rel="canonical" href="{{CANONICAL_URL}}">
+<meta name="robots" content="index, follow">
+
+<script>
+  (function () {
+    try {
+      const t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "سعر الفضة اليوم في السعودية",
+  "url": "{{CANONICAL_URL}}",
+  "dateModified": "{{DATE_MODIFIED_ISO}}",
+  "mainEntity": {
+    "@type": "Product",
+    "name": "الفضة عيار 999 (سعر الجرام)",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "SAR",
+      "price": "{{SILVER_999_SAR}}",
+      "priceValidUntil": "{{PRICE_VALID_UNTIL}}",
+      "availability": "https://schema.org/InStock",
+      "url": "{{CANONICAL_URL}}"
+    }
+  }
+}
+</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="brand">
+      <div class="brand__mark" aria-hidden="true">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#0f4e30" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 16.5 9.5 10 13.5 14 21 6.5"></polyline><circle cx="9.5" cy="10" r="1.7" fill="#0f4e30" stroke="none"></circle></svg>
+      </div>
+      <div class="brand__text">
+        <span class="brand__title">سعر الذهب اليوم</span>
+        <span class="brand__subtitle">في السعودية</span>
+      </div>
+    </div>
+    <div class="header-controls">
+      <nav class="main-nav" aria-label="الأقسام الرئيسية">
+        <a href="index.html" class="main-nav__link">
+          <span>أسعار الذهب</span>
+          <span class="main-nav__underline" aria-hidden="true"></span>
+        </a>
+        <a href="silver.html" class="main-nav__link is-active" aria-current="page">
+          <span>أسعار الفضة</span>
+          <span class="main-nav__underline" aria-hidden="true"></span>
+        </a>
+      </nav>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="true" aria-label="تبديل المظهر بين الوضع الفاتح والداكن">
+        <span data-theme-icon aria-hidden="true">☀</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <section class="card hero" aria-labelledby="hero-title">
+    <div class="hero__top">
+      <h1 id="hero-title" class="hero__title">سعر أونصة الفضة اليوم في السعودية</h1>
+      <span id="live-clock" class="hero__datetime num">{{LAST_UPDATE_DATE_AR}} — <span class="ltr">{{LAST_UPDATE_TIME_AR}}</span> {{LAST_UPDATE_AMPM_AR}}</span>
+    </div>
+    <div class="hero__prices">
+      <div class="price-box price-box--metal price-box--silver-metal">
+        <div class="price-box__label">سعر الأونصة بالريال السعودي</div>
+        <div class="price-box__value num">{{SILVER_OUNCE_SAR}} <span class="price-box__unit">﷼</span></div>
+      </div>
+      <div class="price-box price-box--usd">
+        <div class="price-box__label">سعر الأونصة بالدولار الأمريكي</div>
+        <div class="price-box__value num">{{SILVER_OUNCE_USD}} <span class="price-box__unit">$</span></div>
+      </div>
+    </div>
+    <div class="change-row">
+      <span class="change-badge change-badge--{{SILVER_CHANGE_TREND}} num">
+        <span class="trend-icon-wrap trend-icon-wrap--{{SILVER_CHANGE_TREND}}" aria-hidden="true">
+          <svg class="trend-icon trend-icon--up" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+          <svg class="trend-icon trend-icon--down" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+        </span>
+        <span class="ltr">{{SILVER_CHANGE_PERCENT}}</span>
+        <span class="ltr">({{SILVER_CHANGE_SAR}})</span>
+      </span>
+      <span class="change-row__caption">التغير عن إغلاق الأمس</span>
+    </div>
+    <div class="hero__updated num">آخر تحديث: {{LAST_UPDATE_DATE_AR}} — {{LAST_UPDATE_TIME_AR}} {{LAST_UPDATE_AMPM_AR}}اً بتوقيت الرياض</div>
+  </section>
+
+  <section class="section" aria-labelledby="gram-prices-title">
+    <h2 id="gram-prices-title" class="section__title">أسعار جرام الفضة اليوم</h2>
+    <div class="card table-scroll">
+      <table class="data-table data-table--silver">
+        <caption class="sr-only">أسعار جرام الفضة اليوم بالريال والدولار حسب العيار</caption>
+        <thead>
+          <tr>
+            <th scope="col">العيار</th>
+            <th scope="col">السعر بالريال</th>
+            <th scope="col">السعر بالدولار</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="is-featured">
+            <th scope="row">عيار 999</th>
+            <td class="price-table__sar num">
+              <span class="cell-value">
+                {{SILVER_999_SAR}}
+                <span class="trend-icon-wrap trend-icon-wrap--{{SILVER_999_TREND}}" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+              </span>
+            </td>
+            <td class="price-table__usd num">{{SILVER_999_USD}}</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 958</th>
+            <td class="price-table__sar num">
+              <span class="cell-value">
+                {{SILVER_958_SAR}}
+                <span class="trend-icon-wrap trend-icon-wrap--{{SILVER_958_TREND}}" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+              </span>
+            </td>
+            <td class="price-table__usd num">{{SILVER_958_USD}}</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 925</th>
+            <td class="price-table__sar num">
+              <span class="cell-value">
+                {{SILVER_925_SAR}}
+                <span class="trend-icon-wrap trend-icon-wrap--{{SILVER_925_TREND}}" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+              </span>
+            </td>
+            <td class="price-table__usd num">{{SILVER_925_USD}}</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 800</th>
+            <td class="price-table__sar num">
+              <span class="cell-value">
+                {{SILVER_800_SAR}}
+                <span class="trend-icon-wrap trend-icon-wrap--{{SILVER_800_TREND}}" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+              </span>
+            </td>
+            <td class="price-table__usd num">{{SILVER_800_USD}}</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 750</th>
+            <td class="price-table__sar num">
+              <span class="cell-value">
+                {{SILVER_750_SAR}}
+                <span class="trend-icon-wrap trend-icon-wrap--{{SILVER_750_TREND}}" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+              </span>
+            </td>
+            <td class="price-table__usd num">{{SILVER_750_USD}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ounce-buysell-title">
+    <h2 id="ounce-buysell-title" class="section__title">سعر أونصة الفضة بيع وشراء</h2>
+    <div class="buysell-row">
+      <div class="card buysell-card">
+        <span class="buysell-card__label">سعر أونصة الفضة بيع</span>
+        <span class="buysell-card__value num">
+          {{SILVER_OUNCE_SELL_SAR}} ﷼
+          <span class="trend-icon-wrap trend-icon-wrap--{{SILVER_OUNCE_SELL_TREND}}" aria-hidden="true">
+            <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+            <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+          </span>
+        </span>
+      </div>
+      <div class="card buysell-card">
+        <span class="buysell-card__label">سعر أونصة الفضة شراء</span>
+        <span class="buysell-card__value num">
+          {{SILVER_OUNCE_BUY_SAR}} ﷼
+          <span class="trend-icon-wrap trend-icon-wrap--{{SILVER_OUNCE_BUY_TREND}}" aria-hidden="true">
+            <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+            <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+          </span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <div id="ad-slot-1" class="ad-slot" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">300×250</span></div>
+
+  <section class="section" aria-labelledby="market-prices-title">
+    <h2 id="market-prices-title" class="section__title">أسعار السوق (بيع مستعمل وشراء جديد)</h2>
+    <!--
+      ESTIMATE, NOT VERIFIED MARKET DATA. Unlike gold, no markup percentages
+      have been supplied yet for silver — scripts/update-prices.js should use
+      the same placeholder pattern as gold (flat SAR deduction for sell-used,
+      a percentage markup for buy-new) but the actual figures are TBD and
+      must be confirmed before this is treated as real pricing.
+    -->
+    <div class="card table-scroll">
+      <table class="data-table data-table--silver">
+        <caption class="sr-only">أسعار بيع الفضة المستعملة وشراء الفضة الجديدة تقديرياً حسب العيار</caption>
+        <thead>
+          <tr>
+            <th scope="col">العيار</th>
+            <th scope="col">بيع مستعمل</th>
+            <th scope="col">شراء جديد</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">عيار 958</th>
+            <td class="num">{{SILVER_958_SELL_USED_SAR}} ﷼</td>
+            <td class="num">{{SILVER_958_BUY_NEW_SAR}} ﷼</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 925</th>
+            <td class="num">{{SILVER_925_SELL_USED_SAR}} ﷼</td>
+            <td class="num">{{SILVER_925_BUY_NEW_SAR}} ﷼</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 800</th>
+            <td class="num">{{SILVER_800_SELL_USED_SAR}} ﷼</td>
+            <td class="num">{{SILVER_800_BUY_NEW_SAR}} ﷼</td>
+          </tr>
+          <tr>
+            <th scope="row">عيار 750</th>
+            <td class="num">{{SILVER_750_SELL_USED_SAR}} ﷼</td>
+            <td class="num">{{SILVER_750_BUY_NEW_SAR}} ﷼</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="market-table__note">* أسعار البيع والشراء أعلاه تقديرية بهامش افتراضي وقد تختلف عن أسعار محلات الفضة الفعلية.</p>
+  </section>
+
+  <section class="section" aria-labelledby="history-title">
+    <h2 id="history-title" class="section__title">أسعار جرام الفضة في الأيام السابقة</h2>
+    <div class="card table-scroll">
+      <table class="data-table data-table--silver">
+        <caption class="sr-only">أسعار جرام الفضة لآخر خمسة أيام حسب العيار</caption>
+        <thead>
+          <tr>
+            <th scope="col">التاريخ</th>
+            <th scope="col">عيار 999</th>
+            <th scope="col">عيار 958</th>
+            <th scope="col">عيار 925</th>
+            <th scope="col">عيار 800</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--
+            {{HISTORY_ROWS}} block token — same convention as index.html.
+            Example row shape:
+
+            <tr>
+              <th scope="row" class="history-table__date num">
+                <span class="cell-value">22 أغسطس
+                  <span class="trend-icon-wrap trend-icon-wrap--up" aria-hidden="true">...up/down svgs...</span>
+                </span>
+              </th>
+              <td class="history-table__cell--main num">5.81</td>
+              <td class="num">5.57</td>
+              <td class="num">5.38</td>
+              <td class="num">4.65</td>
+            </tr>
+          -->
+          {{HISTORY_ROWS}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div id="ad-slot-2" class="ad-slot" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">300×250</span></div>
+
+  <p class="updated-note num">آخر تحديث: {{LAST_UPDATE_DATE_AR}} — {{LAST_UPDATE_TIME_AR}} {{LAST_UPDATE_AMPM_AR}}اً بتوقيت الرياض</p>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div id="ad-slot-3" class="ad-slot ad-slot--banner" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">728×90</span></div>
+    <div class="site-footer__brand">
+      <div class="brand__mark brand__mark--sm" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f4e30" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 16.5 9.5 10 13.5 14 21 6.5"></polyline><circle cx="9.5" cy="10" r="1.7" fill="#0f4e30" stroke="none"></circle></svg>
+      </div>
+      <div class="brand__text">
+        <span class="brand__title">سعر الذهب اليوم</span>
+        <span class="brand__subtitle">في السعودية</span>
+      </div>
+    </div>
+    <div class="site-footer__row">
+      <span class="site-footer__copy">© 2026 سعر الذهب اليوم — جميع الحقوق محفوظة</span>
+    </div>
+    <p class="site-footer__disclaimer">الأسعار المعروضة إرشادية وتُحدَّث بشكل دوري، وقد تختلف عن أسعار البيع الفعلية في محلات الفضة.</p>
+  </div>
+</footer>
+
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/clock.js"></script>
+</body>
+</html>

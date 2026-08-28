@@ -487,6 +487,7 @@ function buildGoldTokens({ computed, change, dateParts, isoNow, priceValidUntil,
     DATE_MODIFIED_ISO: isoNow,
     PRICE_VALID_UNTIL: priceValidUntil,
     CANONICAL_URL: canonicalUrl,
+    OG_IMAGE_URL: `${SITE_URL}/assets/images/og-image.jpg`,
   };
 }
 
@@ -521,6 +522,7 @@ function buildSilverTokens({ computed, change, dateParts, isoNow, priceValidUnti
     DATE_MODIFIED_ISO: isoNow,
     PRICE_VALID_UNTIL: priceValidUntil,
     CANONICAL_URL: canonicalUrl,
+    OG_IMAGE_URL: `${SITE_URL}/assets/images/og-image.jpg`,
   };
 }
 

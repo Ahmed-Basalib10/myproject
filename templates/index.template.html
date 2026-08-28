@@ -50,6 +50,7 @@
     {{DATE_MODIFIED_ISO}}   e.g. "2026-08-23T11:42:00+03:00"
     {{PRICE_VALID_UNTIL}}   ISO date, required by Google for Offer rich results
     {{CANONICAL_URL}}       full absolute URL of this page
+    {{OG_IMAGE_URL}}        absolute URL of assets/images/og-image.jpg (shared by both pages)
 
   TODO before going live: replace the CANONICAL_URL placeholder domain below
   with the real production domain (also update sitemap.xml / robots.txt).
@@ -61,6 +62,26 @@
 <meta name="description" content="تابع سعر الذهب اليوم في السعودية لحظياً بالريال السعودي والدولار الأمريكي لعيار 24 و22 و21 و18 و14، مع سعر الأونصة وأسعار البيع والشراء، ويُحدَّث كل عدة ساعات.">
 <link rel="canonical" href="{{CANONICAL_URL}}">
 <meta name="robots" content="index, follow">
+
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/images/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="سعر الذهب اليوم">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:title" content="سعر الذهب اليوم في السعودية">
+<meta property="og:description" content="تابع سعر الذهب اليوم في السعودية لحظياً بالريال السعودي والدولار الأمريكي لعيار 24 و22 و21 و18 و14، مع سعر الأونصة وأسعار البيع والشراء.">
+<meta property="og:url" content="{{CANONICAL_URL}}">
+<meta property="og:image" content="{{OG_IMAGE_URL}}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="سعر الذهب اليوم في السعودية">
+<meta name="twitter:description" content="تابع سعر الذهب اليوم في السعودية لحظياً بالريال السعودي والدولار الأمريكي.">
+<meta name="twitter:image" content="{{OG_IMAGE_URL}}">
 
 <!-- Apply saved theme before first paint to avoid a flash of the wrong theme -->
 <script>

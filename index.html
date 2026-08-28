@@ -12,12 +12,12 @@
   script only does a literal string replace of these {{TOKENS}}.
 
   Spot / hero:
-    17,246.25         4,599.00
+    16,720.88         4,458.90
     down      "up" | "down"
-    1.29%    e.g. "0.62%"
-    -224.62 ﷼        signed, e.g. "+23.90 ﷼" / "-12.10 ﷼"
-    الأربعاء 26 أغسطس 2026    e.g. "الأحد 23 أغسطس 2026"
-    9:20    e.g. "11:42"
+    3.10%    e.g. "0.62%"
+    -535.13 ﷼        signed, e.g. "+23.90 ﷼" / "-12.10 ﷼"
+    الجمعة 28 أغسطس 2026    e.g. "الأحد 23 أغسطس 2026"
+    11:14    e.g. "11:42"
     م    "ص" | "م"
     (these three feed both the "آخر تحديث" line, where they're authoritative,
     and the #live-clock element's initial markup — assets/js/clock.js
@@ -25,20 +25,20 @@
     keeps ticking it, so the baked value there is only a no-JS/SEO fallback)
 
   Gram prices per karat (24/22/21/18/14):
-    554.48 147.86 down
-    508.29 135.54 down
-    485.17 129.38 down
-    415.86 110.90 down
-    323.45 86.25 down
+    537.59 143.36 down
+    492.81 131.42 down
+    470.39 125.44 down
+    403.19 107.52 down
+    313.59 83.63 down
 
   Ounce buy/sell:
-    17,242.50 down
-    17,250.00  down
+    16,717.13 down
+    16,724.63  down
 
   Market buy/sell per gram (22/21/18) — ESTIMATED, see disclaimer in markup:
-    503.29 594.70
-    480.17 572.50
-    410.86 557.25
+    487.81 576.58
+    465.39 555.06
+    398.19 540.28
 
   History table (5-day rolling), one block token:
     {{HISTORY_ROWS}} — replaced with N repetitions of a <tr> fragment (see
@@ -47,9 +47,9 @@
     cron run.
 
   SEO / structured data:
-    2026-08-26T21:20:38.925+03:00   e.g. "2026-08-23T11:42:00+03:00"
-    2026-08-27   ISO date, required by Google for Offer rich results
-    https://your-domain.example/       full absolute URL of this page
+    2026-08-28T23:14:15.669+03:00   e.g. "2026-08-23T11:42:00+03:00"
+    2026-08-29   ISO date, required by Google for Offer rich results
+    https://dhahabksa.com/       full absolute URL of this page
 
   TODO before going live: replace the CANONICAL_URL placeholder domain below
   with the real production domain (also update sitemap.xml / robots.txt).
@@ -59,7 +59,7 @@
 
 <title>سعر الذهب اليوم في السعودية | تحديث لحظي بالريال والدولار</title>
 <meta name="description" content="تابع سعر الذهب اليوم في السعودية لحظياً بالريال السعودي والدولار الأمريكي لعيار 24 و22 و21 و18 و14، مع سعر الأونصة وأسعار البيع والشراء، ويُحدَّث كل عدة ساعات.">
-<link rel="canonical" href="https://your-domain.example/">
+<link rel="canonical" href="https://dhahabksa.com/">
 <meta name="robots" content="index, follow">
 
 <!-- Apply saved theme before first paint to avoid a flash of the wrong theme -->
@@ -82,18 +82,18 @@
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "سعر الذهب اليوم في السعودية",
-  "url": "https://your-domain.example/",
-  "dateModified": "2026-08-26T21:20:38.925+03:00",
+  "url": "https://dhahabksa.com/",
+  "dateModified": "2026-08-28T23:14:15.669+03:00",
   "mainEntity": {
     "@type": "Product",
     "name": "الذهب عيار 24 (سعر الجرام)",
     "offers": {
       "@type": "Offer",
       "priceCurrency": "SAR",
-      "price": "554.48",
-      "priceValidUntil": "2026-08-27",
+      "price": "537.59",
+      "priceValidUntil": "2026-08-29",
       "availability": "https://schema.org/InStock",
-      "url": "https://your-domain.example/"
+      "url": "https://dhahabksa.com/"
     }
   }
 }
@@ -137,16 +137,16 @@
   <section class="card hero" aria-labelledby="hero-title">
     <div class="hero__top">
       <h1 id="hero-title" class="hero__title">سعر أونصة الذهب اليوم في السعودية</h1>
-      <span id="live-clock" class="hero__datetime num">الأربعاء 26 أغسطس 2026 — <span class="ltr">9:20</span> م</span>
+      <span id="live-clock" class="hero__datetime num">الجمعة 28 أغسطس 2026 — <span class="ltr">11:14</span> م</span>
     </div>
     <div class="hero__prices">
       <div class="price-box price-box--metal">
         <div class="price-box__label">سعر الأونصة بالريال السعودي</div>
-        <div class="price-box__value num">17,246.25 <span class="price-box__unit">﷼</span></div>
+        <div class="price-box__value num">16,720.88 <span class="price-box__unit">﷼</span></div>
       </div>
       <div class="price-box price-box--usd">
         <div class="price-box__label">سعر الأونصة بالدولار الأمريكي</div>
-        <div class="price-box__value num">4,599.00 <span class="price-box__unit">$</span></div>
+        <div class="price-box__value num">4,458.90 <span class="price-box__unit">$</span></div>
       </div>
     </div>
     <div class="change-row">
@@ -155,12 +155,12 @@
           <svg class="trend-icon trend-icon--up" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
           <svg class="trend-icon trend-icon--down" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
         </span>
-        <span class="ltr">1.29%</span>
-        <span class="ltr">(-224.62 ﷼)</span>
+        <span class="ltr">3.10%</span>
+        <span class="ltr">(-535.13 ﷼)</span>
       </span>
       <span class="change-row__caption">التغير عن إغلاق الأمس</span>
     </div>
-    <div class="hero__updated num">آخر تحديث: الأربعاء 26 أغسطس 2026 — 9:20 ماً بتوقيت الرياض</div>
+    <div class="hero__updated num">آخر تحديث: الجمعة 28 أغسطس 2026 — 11:14 ماً بتوقيت الرياض</div>
   </section>
 
   <section class="section" aria-labelledby="gram-prices-title">
@@ -180,66 +180,66 @@
             <th scope="row">عيار 24</th>
             <td class="price-table__sar num">
               <span class="cell-value">
-                554.48
+                537.59
                 <span class="trend-icon-wrap trend-icon-wrap--down" aria-hidden="true">
                   <svg class="trend-icon trend-icon--up" width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
                   <svg class="trend-icon trend-icon--down" width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
                 </span>
               </span>
             </td>
-            <td class="price-table__usd num">147.86</td>
+            <td class="price-table__usd num">143.36</td>
           </tr>
           <tr>
             <th scope="row">عيار 22</th>
             <td class="price-table__sar num">
               <span class="cell-value">
-                508.29
+                492.81
                 <span class="trend-icon-wrap trend-icon-wrap--down" aria-hidden="true">
                   <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
                   <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
                 </span>
               </span>
             </td>
-            <td class="price-table__usd num">135.54</td>
+            <td class="price-table__usd num">131.42</td>
           </tr>
           <tr>
             <th scope="row">عيار 21</th>
             <td class="price-table__sar num">
               <span class="cell-value">
-                485.17
+                470.39
                 <span class="trend-icon-wrap trend-icon-wrap--down" aria-hidden="true">
                   <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
                   <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
                 </span>
               </span>
             </td>
-            <td class="price-table__usd num">129.38</td>
+            <td class="price-table__usd num">125.44</td>
           </tr>
           <tr>
             <th scope="row">عيار 18</th>
             <td class="price-table__sar num">
               <span class="cell-value">
-                415.86
+                403.19
                 <span class="trend-icon-wrap trend-icon-wrap--down" aria-hidden="true">
                   <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
                   <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
                 </span>
               </span>
             </td>
-            <td class="price-table__usd num">110.90</td>
+            <td class="price-table__usd num">107.52</td>
           </tr>
           <tr>
             <th scope="row">عيار 14</th>
             <td class="price-table__sar num">
               <span class="cell-value">
-                323.45
+                313.59
                 <span class="trend-icon-wrap trend-icon-wrap--down" aria-hidden="true">
                   <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
                   <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
                 </span>
               </span>
             </td>
-            <td class="price-table__usd num">86.25</td>
+            <td class="price-table__usd num">83.63</td>
           </tr>
         </tbody>
       </table>
@@ -252,7 +252,7 @@
       <div class="card buysell-card">
         <span class="buysell-card__label">سعر أونصة الذهب بيع</span>
         <span class="buysell-card__value num">
-          17,242.50 ﷼
+          16,717.13 ﷼
           <span class="trend-icon-wrap trend-icon-wrap--down" aria-hidden="true">
             <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
             <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
@@ -262,7 +262,7 @@
       <div class="card buysell-card">
         <span class="buysell-card__label">سعر أونصة الذهب شراء</span>
         <span class="buysell-card__value num">
-          17,250.00 ﷼
+          16,724.63 ﷼
           <span class="trend-icon-wrap trend-icon-wrap--down" aria-hidden="true">
             <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
             <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
@@ -297,18 +297,18 @@
         <tbody>
           <tr>
             <th scope="row">عيار 22</th>
-            <td class="num">503.29 ﷼</td>
-            <td class="num">594.70 ﷼</td>
+            <td class="num">487.81 ﷼</td>
+            <td class="num">576.58 ﷼</td>
           </tr>
           <tr>
             <th scope="row">عيار 21</th>
-            <td class="num">480.17 ﷼</td>
-            <td class="num">572.50 ﷼</td>
+            <td class="num">465.39 ﷼</td>
+            <td class="num">555.06 ﷼</td>
           </tr>
           <tr>
             <th scope="row">عيار 18</th>
-            <td class="num">410.86 ﷼</td>
-            <td class="num">557.25 ﷼</td>
+            <td class="num">398.19 ﷼</td>
+            <td class="num">540.28 ﷼</td>
           </tr>
         </tbody>
       </table>
@@ -332,6 +332,21 @@
         </thead>
         <tbody>
                       <tr>
+              <th scope="row" class="history-table__date num">
+                <span class="cell-value">
+                  28 أغسطس
+                  <span class="trend-icon-wrap trend-icon-wrap--down" aria-hidden="true">
+                  <svg class="trend-icon trend-icon--up" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 17 9.5 10.5 13.5 14.5 21 7"></polyline><polyline points="15 7 21 7 21 13"></polyline></svg>
+                  <svg class="trend-icon trend-icon--down" width="1.3em" height="1.3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false"><polyline points="3 7 9.5 13.5 13.5 9.5 21 17"></polyline><polyline points="15 17 21 17 21 11"></polyline></svg>
+                </span>
+                </span>
+              </th>
+              <td class="history-table__cell--main num">537.59</td>
+              <td class="num">492.81</td>
+              <td class="num">470.39</td>
+              <td class="num">403.19</td>
+            </tr>
+            <tr>
               <th scope="row" class="history-table__date num">
                 <span class="cell-value">
                   26 أغسطس
@@ -383,7 +398,7 @@
 
   <div id="ad-slot-2" class="ad-slot" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">300×250</span></div>
 
-  <p class="updated-note num">آخر تحديث: الأربعاء 26 أغسطس 2026 — 9:20 ماً بتوقيت الرياض</p>
+  <p class="updated-note num">آخر تحديث: الجمعة 28 أغسطس 2026 — 11:14 ماً بتوقيت الرياض</p>
 </main>
 
 <footer class="site-footer">

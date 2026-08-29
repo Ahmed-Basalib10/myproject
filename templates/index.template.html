@@ -98,6 +98,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 
+<!-- Product/Offer schema deliberately omits hasMerchantReturnPolicy and
+     shippingDetails (both optional per Google's Rich Results check) — this
+     is a live spot price, nothing is sold or shipped, so those fields have
+     no real value to report. Don't add placeholder/fake data just to
+     silence the "non-critical" warning; leaving them absent is correct. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -108,11 +113,18 @@
   "mainEntity": {
     "@type": "Product",
     "name": "الذهب عيار 24 (سعر الجرام)",
+    "description": "سعر جرام الذهب عيار 24 اليوم بالريال السعودي، مشتق من السعر الفوري العالمي ومحدث بشكل لحظي.",
+    "image": "{{OG_IMAGE_URL}}",
+    "brand": {
+      "@type": "Brand",
+      "name": "سعر الذهب اليوم"
+    },
     "offers": {
       "@type": "Offer",
       "priceCurrency": "SAR",
       "price": "{{GOLD_24K_SAR}}",
       "priceValidUntil": "{{PRICE_VALID_UNTIL}}",
+      "validFrom": "{{DATE_MODIFIED_ISO}}",
       "availability": "https://schema.org/InStock",
       "url": "{{CANONICAL_URL}}"
     }

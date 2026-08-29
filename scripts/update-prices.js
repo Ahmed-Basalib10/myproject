@@ -139,7 +139,12 @@ function formatArabicDateTime(date) {
   return {
     dateAr: `${weekday} ${p.day} ${month} ${p.year}`,
     timeAr: `${p.hour}:${minute}`,
+    // Short form ("م"/"ص") for compact contexts like the hero clock
+    // ("11:42 م"). Do NOT build the long form by gluing a suffix onto this
+    // ("م" + "اً" = "ماً", not a real word) — periodAr below is the correct
+    // full word ("مساءً"/"صباحاً") for use in a sentence.
     ampmAr: p.dayPeriod === 'PM' ? 'م' : 'ص',
+    periodAr: p.dayPeriod === 'PM' ? 'مساءً' : 'صباحاً',
   };
 }
 
@@ -468,6 +473,7 @@ function buildGoldTokens({ computed, change, dateParts, isoNow, priceValidUntil,
     LAST_UPDATE_DATE_AR: dateParts.dateAr,
     LAST_UPDATE_TIME_AR: dateParts.timeAr,
     LAST_UPDATE_AMPM_AR: dateParts.ampmAr,
+    LAST_UPDATE_PERIOD_AR: dateParts.periodAr,
 
     GOLD_24K_SAR: formatNumber(g[24].sar), GOLD_24K_USD: formatNumber(g[24].usd), GOLD_24K_TREND: change.trend,
     GOLD_22K_SAR: formatNumber(g[22].sar), GOLD_22K_USD: formatNumber(g[22].usd), GOLD_22K_TREND: change.trend,
@@ -502,6 +508,7 @@ function buildSilverTokens({ computed, change, dateParts, isoNow, priceValidUnti
     LAST_UPDATE_DATE_AR: dateParts.dateAr,
     LAST_UPDATE_TIME_AR: dateParts.timeAr,
     LAST_UPDATE_AMPM_AR: dateParts.ampmAr,
+    LAST_UPDATE_PERIOD_AR: dateParts.periodAr,
 
     SILVER_999_SAR: formatNumber(g[999].sar), SILVER_999_USD: formatNumber(g[999].usd), SILVER_999_TREND: change.trend,
     SILVER_958_SAR: formatNumber(g[958].sar), SILVER_958_USD: formatNumber(g[958].usd), SILVER_958_TREND: change.trend,

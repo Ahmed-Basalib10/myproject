@@ -295,6 +295,43 @@
     </div>
   </section>
 
+  <section class="section" aria-labelledby="history-title">
+    <h2 id="history-title" class="section__title">أسعار جرام الفضة في الأيام السابقة</h2>
+    <div class="card table-scroll">
+      <table class="data-table data-table--silver">
+        <caption class="sr-only">أسعار جرام الفضة لآخر خمسة أيام حسب العيار</caption>
+        <thead>
+          <tr>
+            <th scope="col">التاريخ</th>
+            <th scope="col">عيار 999</th>
+            <th scope="col">عيار 958</th>
+            <th scope="col">عيار 925</th>
+            <th scope="col">عيار 800</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--
+            {{HISTORY_ROWS}} block token — same convention as index.html.
+            Example row shape:
+
+            <tr>
+              <th scope="row" class="history-table__date num">
+                <span class="cell-value">22 أغسطس
+                  <span class="trend-icon-wrap trend-icon-wrap--up" aria-hidden="true">...up/down svgs...</span>
+                </span>
+              </th>
+              <td class="history-table__cell--main num">5.81</td>
+              <td class="num">5.57</td>
+              <td class="num">5.38</td>
+              <td class="num">4.65</td>
+            </tr>
+          -->
+          {{HISTORY_ROWS}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <div id="ad-slot-1" class="ad-slot" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">300×250</span></div>
 
   <section class="section" aria-labelledby="market-prices-title">
@@ -341,43 +378,6 @@
       </table>
     </div>
     <p class="market-table__note">* أسعار البيع والشراء أعلاه تقديرية بهامش افتراضي وقد تختلف عن أسعار محلات الفضة الفعلية.</p>
-  </section>
-
-  <section class="section" aria-labelledby="history-title">
-    <h2 id="history-title" class="section__title">أسعار جرام الفضة في الأيام السابقة</h2>
-    <div class="card table-scroll">
-      <table class="data-table data-table--silver">
-        <caption class="sr-only">أسعار جرام الفضة لآخر خمسة أيام حسب العيار</caption>
-        <thead>
-          <tr>
-            <th scope="col">التاريخ</th>
-            <th scope="col">عيار 999</th>
-            <th scope="col">عيار 958</th>
-            <th scope="col">عيار 925</th>
-            <th scope="col">عيار 800</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!--
-            {{HISTORY_ROWS}} block token — same convention as index.html.
-            Example row shape:
-
-            <tr>
-              <th scope="row" class="history-table__date num">
-                <span class="cell-value">22 أغسطس
-                  <span class="trend-icon-wrap trend-icon-wrap--up" aria-hidden="true">...up/down svgs...</span>
-                </span>
-              </th>
-              <td class="history-table__cell--main num">5.81</td>
-              <td class="num">5.57</td>
-              <td class="num">5.38</td>
-              <td class="num">4.65</td>
-            </tr>
-          -->
-          {{HISTORY_ROWS}}
-        </tbody>
-      </table>
-    </div>
   </section>
 
   <div id="ad-slot-2" class="ad-slot" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">300×250</span></div>

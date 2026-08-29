@@ -305,6 +305,44 @@
     </div>
   </section>
 
+  <section class="section" aria-labelledby="history-title">
+    <h2 id="history-title" class="section__title">أسعار جرام الذهب في الأيام السابقة</h2>
+    <div class="card table-scroll">
+      <table class="data-table data-table--gold">
+        <caption class="sr-only">أسعار جرام الذهب لآخر خمسة أيام حسب العيار</caption>
+        <thead>
+          <tr>
+            <th scope="col">التاريخ</th>
+            <th scope="col">عيار 24</th>
+            <th scope="col">عيار 22</th>
+            <th scope="col">عيار 21</th>
+            <th scope="col">عيار 18</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--
+            {{HISTORY_ROWS}} block token: scripts/update-prices.js replaces
+            this entire comment+row pair with up to 5 <tr> rows (most recent
+            first), each shaped exactly like the example row below:
+
+            <tr>
+              <th scope="row" class="history-table__date num">
+                <span class="cell-value">22 أغسطس
+                  <span class="trend-icon-wrap trend-icon-wrap--up" aria-hidden="true">...up/down svgs...</span>
+                </span>
+              </th>
+              <td class="history-table__cell--main num">461.30</td>
+              <td class="num">422.90</td>
+              <td class="num">403.60</td>
+              <td class="num">345.95</td>
+            </tr>
+          -->
+          {{HISTORY_ROWS}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <div id="ad-slot-1" class="ad-slot" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">300×250</span></div>
 
   <section class="section" aria-labelledby="market-prices-title">
@@ -347,44 +385,6 @@
       </table>
     </div>
     <p class="market-table__note">* أسعار البيع والشراء أعلاه تقديرية بهامش افتراضي وقد تختلف عن أسعار محلات الذهب الفعلية.</p>
-  </section>
-
-  <section class="section" aria-labelledby="history-title">
-    <h2 id="history-title" class="section__title">أسعار جرام الذهب في الأيام السابقة</h2>
-    <div class="card table-scroll">
-      <table class="data-table data-table--gold">
-        <caption class="sr-only">أسعار جرام الذهب لآخر خمسة أيام حسب العيار</caption>
-        <thead>
-          <tr>
-            <th scope="col">التاريخ</th>
-            <th scope="col">عيار 24</th>
-            <th scope="col">عيار 22</th>
-            <th scope="col">عيار 21</th>
-            <th scope="col">عيار 18</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!--
-            {{HISTORY_ROWS}} block token: scripts/update-prices.js replaces
-            this entire comment+row pair with up to 5 <tr> rows (most recent
-            first), each shaped exactly like the example row below:
-
-            <tr>
-              <th scope="row" class="history-table__date num">
-                <span class="cell-value">22 أغسطس
-                  <span class="trend-icon-wrap trend-icon-wrap--up" aria-hidden="true">...up/down svgs...</span>
-                </span>
-              </th>
-              <td class="history-table__cell--main num">461.30</td>
-              <td class="num">422.90</td>
-              <td class="num">403.60</td>
-              <td class="num">345.95</td>
-            </tr>
-          -->
-          {{HISTORY_ROWS}}
-        </tbody>
-      </table>
-    </div>
   </section>
 
   <div id="ad-slot-2" class="ad-slot" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">300×250</span></div>

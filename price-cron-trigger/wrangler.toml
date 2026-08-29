@@ -1,0 +1,6 @@
+name = "myproject-price-cron-trigger"
+main = "src/index.js"
+compatibility_date = "2026-08-29"
+
+[triggers]
+crons = ["*/15 * * * *"]

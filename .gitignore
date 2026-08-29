@@ -2,3 +2,9 @@ node_modules/
 .env
 .env.local
 .DS_Store
+
+# price-cron-trigger/ (Cloudflare Worker) — local Wrangler state and any
+# local-only secrets file. GITHUB_PAT itself is never in a file; it's set
+# via `wrangler secret put`, stored encrypted on Cloudflare's side only.
+price-cron-trigger/.wrangler/
+price-cron-trigger/.dev.vars

@@ -1,12 +1,16 @@
 name: Update prices
 
 on:
-  schedule:
-    # Matches UPDATE_INTERVAL_MINUTES=15 in .env.example. GitHub's cron
-    # scheduler isn't exact under load, so treat this as "about every 15
-    # minutes," not a guarantee. Adjust if your Metal Sentinel quota needs a
-    # different cadence.
-    - cron: '*/15 * * * *'
+  # NO schedule: trigger here, deliberately. GitHub's own scheduler was
+  # tested (via the Actions run history) and found to fire this workflow
+  # roughly every 6-7 hours, not every 15 minutes as configured — GitHub
+  # throttles schedule-triggered runs for accounts without much history, and
+  # there's no YAML fix for that. Timing is instead driven externally by a
+  # Cloudflare Worker with a Cron Trigger (see price-cron-trigger/) that
+  # calls this workflow's dispatches API endpoint every 15 minutes. Don't
+  # add a schedule: block back without re-verifying it actually fires on
+  # time — it looked "active" and correct last time too, right up until the
+  # run history showed it wasn't.
   workflow_dispatch: {}
 
 # Public repo => unlimited free Actions minutes, and no separate "build"

@@ -91,11 +91,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 
-<!-- Product/Offer schema deliberately omits hasMerchantReturnPolicy and
-     shippingDetails (both optional per Google's Rich Results check) — this
-     is a live spot price, nothing is sold or shipped, so those fields have
-     no real value to report. Don't add placeholder/fake data just to
-     silence the "non-critical" warning; leaving them absent is correct. -->
+<!-- Product/Offer schema deliberately omits hasMerchantReturnPolicy,
+     shippingDetails, and availability (all optional per Google's Rich
+     Results check) — this is a live spot price, nothing is sold or
+     shipped or held in stock, so those fields have no real value to
+     report. Don't add placeholder/fake data just to silence a
+     "non-critical" warning; leaving them absent is correct. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -118,7 +119,6 @@
       "price": "{{SILVER_999_SAR}}",
       "priceValidUntil": "{{PRICE_VALID_UNTIL}}",
       "validFrom": "{{DATE_MODIFIED_ISO}}",
-      "availability": "https://schema.org/InStock",
       "url": "{{CANONICAL_URL}}"
     }
   }

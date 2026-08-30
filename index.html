@@ -17,7 +17,7 @@
     3.18%    e.g. "0.62%"
     -548.25 ﷼        signed, e.g. "+23.90 ﷼" / "-12.10 ﷼"
     الأحد 30 أغسطس 2026    e.g. "الأحد 23 أغسطس 2026"
-    7:01    e.g. "11:42"
+    7:24    e.g. "11:42"
     م    "ص" | "م"
     (these three feed both the "آخر تحديث" line, where they're authoritative,
     and the #live-clock element's initial markup — assets/js/clock.js
@@ -47,10 +47,10 @@
     cron run.
 
   SEO / structured data:
-    2026-08-30T19:01:15.714+03:00   e.g. "2026-08-23T11:42:00+03:00"
+    2026-08-30T19:24:24.437+03:00   e.g. "2026-08-23T11:42:00+03:00"
     2026-08-31   ISO date, required by Google for Offer rich results
-    https://dhahabksa.com/       full absolute URL of this page
-    https://dhahabksa.com/assets/images/og-image.jpg        absolute URL of assets/images/og-image.jpg (shared by both pages)
+    https://your-domain.example/       full absolute URL of this page
+    https://your-domain.example/assets/images/og-image.jpg        absolute URL of assets/images/og-image.jpg (shared by both pages)
 
   TODO before going live: replace the CANONICAL_URL placeholder domain below
   with the real production domain (also update sitemap.xml / robots.txt).
@@ -60,7 +60,7 @@
 
 <title>اسعار الذهب في السعودية اليوم | تحديث لحظي بالريال والدولار</title>
 <meta name="description" content="اسعار الذهب في السعودية اليوم لحظياً بالريال والدولار لعيار 24 و22 و21 و18 و14، مع سعر الأونصة والبيع والشراء، محدث باستمرار.">
-<link rel="canonical" href="https://dhahabksa.com/">
+<link rel="canonical" href="https://your-domain.example/">
 <meta name="robots" content="index, follow">
 
 <link rel="icon" type="image/png" href="assets/images/favicon-96x96.png" sizes="96x96">
@@ -76,15 +76,15 @@
 <meta property="og:locale" content="ar_SA">
 <meta property="og:title" content="اسعار الذهب في السعودية اليوم">
 <meta property="og:description" content="اسعار الذهب في السعودية اليوم لحظياً بالريال والدولار لعيار 24 و22 و21 و18 و14، مع سعر الأونصة والبيع والشراء، محدث باستمرار.">
-<meta property="og:url" content="https://dhahabksa.com/">
-<meta property="og:image" content="https://dhahabksa.com/assets/images/og-image.jpg">
+<meta property="og:url" content="https://your-domain.example/">
+<meta property="og:image" content="https://your-domain.example/assets/images/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="اسعار الذهب في السعودية اليوم">
 <meta name="twitter:description" content="اسعار الذهب في السعودية اليوم لحظياً بالريال والدولار، محدث باستمرار.">
-<meta name="twitter:image" content="https://dhahabksa.com/assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://your-domain.example/assets/images/og-image.jpg">
 
 <!-- Apply saved theme before first paint to avoid a flash of the wrong theme -->
 <script>
@@ -101,23 +101,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 
-<!-- Product/Offer schema deliberately omits hasMerchantReturnPolicy and
-     shippingDetails (both optional per Google's Rich Results check) — this
-     is a live spot price, nothing is sold or shipped, so those fields have
-     no real value to report. Don't add placeholder/fake data just to
-     silence the "non-critical" warning; leaving them absent is correct. -->
+<!-- Product/Offer schema deliberately omits hasMerchantReturnPolicy,
+     shippingDetails, and availability (all optional per Google's Rich
+     Results check) — this is a live spot price, nothing is sold or
+     shipped or held in stock, so those fields have no real value to
+     report. Don't add placeholder/fake data just to silence a
+     "non-critical" warning; leaving them absent is correct. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "اسعار الذهب في السعودية اليوم",
-  "url": "https://dhahabksa.com/",
-  "dateModified": "2026-08-30T19:01:15.714+03:00",
+  "url": "https://your-domain.example/",
+  "dateModified": "2026-08-30T19:24:24.437+03:00",
   "mainEntity": {
     "@type": "Product",
     "name": "الذهب عيار 24 (سعر الجرام)",
     "description": "سعر جرام الذهب عيار 24 اليوم بالريال السعودي، مشتق من السعر الفوري العالمي ومحدث بشكل لحظي.",
-    "image": "https://dhahabksa.com/assets/images/og-image.jpg",
+    "image": "https://your-domain.example/assets/images/og-image.jpg",
     "brand": {
       "@type": "Brand",
       "name": "سعر الذهب اليوم"
@@ -127,9 +128,8 @@
       "priceCurrency": "SAR",
       "price": "537.17",
       "priceValidUntil": "2026-08-31",
-      "validFrom": "2026-08-30T19:01:15.714+03:00",
-      "availability": "https://schema.org/InStock",
-      "url": "https://dhahabksa.com/"
+      "validFrom": "2026-08-30T19:24:24.437+03:00",
+      "url": "https://your-domain.example/"
     }
   }
 }
@@ -173,7 +173,7 @@
   <section class="card hero" aria-labelledby="hero-title">
     <div class="hero__top">
       <h1 id="hero-title" class="hero__title">سعر أونصة الذهب اليوم في السعودية</h1>
-      <span id="live-clock" class="hero__datetime num">الأحد 30 أغسطس 2026 — <span class="ltr">7:01</span> م</span>
+      <span id="live-clock" class="hero__datetime num">الأحد 30 أغسطس 2026 — <span class="ltr">7:24</span> م</span>
     </div>
     <div class="hero__prices">
       <div class="price-box price-box--metal">
@@ -196,7 +196,7 @@
       </span>
       <span class="change-row__caption">التغير عن إغلاق الأمس</span>
     </div>
-    <div class="hero__updated num">آخر تحديث: الأحد 30 أغسطس 2026 — 7:01 مساءً بتوقيت الرياض</div>
+    <div class="hero__updated num">آخر تحديث: الأحد 30 أغسطس 2026 — 7:24 مساءً بتوقيت الرياض</div>
   </section>
 
   <section class="section" aria-labelledby="gram-prices-title">
@@ -449,7 +449,7 @@
 
   <div id="ad-slot-2" class="ad-slot" role="complementary" aria-label="مساحة إعلانية">مساحة إعلانية — <span class="ltr">300×250</span></div>
 
-  <p class="updated-note num">آخر تحديث: الأحد 30 أغسطس 2026 — 7:01 مساءً بتوقيت الرياض</p>
+  <p class="updated-note num">آخر تحديث: الأحد 30 أغسطس 2026 — 7:24 مساءً بتوقيت الرياض</p>
 </main>
 
 <footer class="site-footer">

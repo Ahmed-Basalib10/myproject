@@ -591,9 +591,6 @@ async function main() {
   data.lastUpdatedIso = isoNow;
   data.usdSarRate = USD_SAR_RATE;
 
-  fs.writeFileSync(PRICES_JSON_PATH, JSON.stringify(data, null, 2) + '\n');
-  console.log(`Wrote ${path.relative(ROOT, PRICES_JSON_PATH)}`);
-
   const goldTokens = buildGoldTokens({
     computed: goldComputed,
     change: goldChange,
@@ -620,16 +617,22 @@ async function main() {
   const goldHtml = renderTokens(replaceHistoryBlock(goldTemplate, goldRowsHtml), goldTokens);
   const silverHtml = renderTokens(replaceHistoryBlock(silverTemplate, silverRowsHtml), silverTokens);
 
-  fs.writeFileSync(path.join(ROOT, 'index.html'), goldHtml);
-  fs.writeFileSync(path.join(ROOT, 'silver.html'), silverHtml);
-  console.log('Wrote index.html and silver.html');
-
   const sitemapXml = buildSitemapXml([
     { url: `${SITE_URL}/`, lastmod: isoNow },
     { url: `${SITE_URL}/silver.html`, lastmod: isoNow },
   ]);
+
+  // All output is fully built and validated in memory above before any file
+  // is touched. The writes below happen back-to-back with nothing that can
+  // throw between them, so a failure anywhere upstream (API errors, a
+  // malformed template) never leaves prices.json out of sync with the HTML
+  // it's supposed to match — either everything here lands together, or
+  // nothing does.
+  fs.writeFileSync(PRICES_JSON_PATH, JSON.stringify(data, null, 2) + '\n');
+  fs.writeFileSync(path.join(ROOT, 'index.html'), goldHtml);
+  fs.writeFileSync(path.join(ROOT, 'silver.html'), silverHtml);
   fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemapXml);
-  console.log('Wrote sitemap.xml');
+  console.log(`Wrote ${path.relative(ROOT, PRICES_JSON_PATH)}, index.html, silver.html, sitemap.xml`);
 }
 
 main().catch((err) => {

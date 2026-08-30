@@ -134,6 +134,29 @@
   }
 }
 </script>
+
+<!-- Site-wide identity markup (same on every page) so Google can reliably
+     show "سعر الذهب في السعودية" as the search result site name instead of
+     the raw domain — this is Google's documented mechanism for that
+     feature, not just an og:site_name hint. logo points at the real
+     512x512 app icon asset (there is no separate logo.png in this repo). -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "سعر الذهب في السعودية",
+  "url": "https://dhahabksa.com/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "سعر الذهب في السعودية",
+  "url": "https://dhahabksa.com/",
+  "logo": "https://dhahabksa.com/assets/images/web-app-manifest-512x512.png"
+}
+</script>
 </head>
 <body>
 

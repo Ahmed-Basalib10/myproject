@@ -43,8 +43,9 @@
   History table (5-day rolling), one block token:
     {{HISTORY_ROWS}} — replaced with N repetitions of a <tr> fragment (see
     the commented example row left in place inside <tbody> below, which is
-    the exact shape the script should clone). Updated once/day, not every
-    cron run.
+    the exact shape the script should clone). The top ("today") row is
+    updated on every cron run to the latest fetched price; it freezes and
+    becomes a fixed historical row once the calendar day rolls over.
 
   SEO / structured data:
     {{DATE_MODIFIED_ISO}}   e.g. "2026-08-23T11:42:00+03:00"

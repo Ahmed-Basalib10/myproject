@@ -5,7 +5,8 @@
 // reads the per-karat/fineness gram prices it already computes for us,
 // applies the "sell used / buy new" market estimates from
 // config/pricing-rules.js on top, updates prices.json (including its
-// rolling 5-day history, refreshed once per calendar day, not every run),
+// rolling 5-day history, whose "today" row tracks the latest run of the
+// day and freezes once the day rolls over — see updateTodayHistoryEntry()),
 // and regenerates index.html / silver.html from templates/*.template.html
 // with the results baked directly into the markup.
 //
@@ -347,13 +348,19 @@ function loadPricesData() {
   }
 }
 
-// History is updated ONCE PER CALENDAR DAY: if today's entry already exists
-// (an earlier cron run today already recorded it), this is a no-op — later
-// runs on the same day never overwrite today's snapshot.
-function updateHistoryOncePerDay(history, todayKey, ounceSar, gramsSarByKey) {
-  if (history.some((h) => h.date === todayKey)) return history;
+// Today's entry tracks the LATEST successful fetch of the day, not just the
+// first one: every run either replaces today's existing entry in place with
+// the just-fetched values, or (first run of a new calendar day) prepends a
+// fresh one and evicts the oldest beyond the 5-day window. Once the day
+// rolls over, that entry stops being touched and becomes a fixed historical
+// row, same as any other day in the table.
+function updateTodayHistoryEntry(history, todayKey, ounceSar, gramsSarByKey) {
   const entry = { date: todayKey, ounceSar, grams: gramsSarByKey };
-  return [entry, ...history].slice(0, 5);
+  const idx = history.findIndex((h) => h.date === todayKey);
+  if (idx === -1) return [entry, ...history].slice(0, 5);
+  const updated = [...history];
+  updated[idx] = entry;
+  return updated;
 }
 
 // ---------------------------------------------------------------------------
@@ -584,8 +591,8 @@ async function main() {
     SILVER_HISTORY_KEYS.map((k) => [k, silverComputed.grams[k].sar])
   );
 
-  data.gold.history = updateHistoryOncePerDay(data.gold.history, todayKey, goldComputed.ounceSar, goldGramsSarForHistory);
-  data.silver.history = updateHistoryOncePerDay(data.silver.history, todayKey, silverComputed.ounceSar, silverGramsSarForHistory);
+  data.gold.history = updateTodayHistoryEntry(data.gold.history, todayKey, goldComputed.ounceSar, goldGramsSarForHistory);
+  data.silver.history = updateTodayHistoryEntry(data.silver.history, todayKey, silverComputed.ounceSar, silverGramsSarForHistory);
   data.gold.current = goldComputed;
   data.silver.current = silverComputed;
   data.lastUpdatedIso = isoNow;

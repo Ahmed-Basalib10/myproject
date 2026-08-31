@@ -40,6 +40,8 @@
   History table (5-day rolling), one block token:
     {{HISTORY_ROWS}} — same convention as index.html, columns are
     999/958/925/800 (see the commented example row inside <tbody> below).
+    The top ("today") row is updated on every cron run to the latest
+    fetched price; it freezes once the calendar day rolls over.
 
   SEO / structured data:
     {{DATE_MODIFIED_ISO}} {{PRICE_VALID_UNTIL}} {{CANONICAL_URL}} {{OG_IMAGE_URL}}

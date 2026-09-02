@@ -712,11 +712,17 @@ main {
 /* ---------- Ad slots ---------- */
 
 .ad-slot {
+  /* Hidden until a real ad (e.g. AdSense) fills this slot — an empty
+     placeholder box with visible "ad space" text looks unfinished to
+     real visitors and adds no real content to the page. Markup/IDs are
+     left in place so a real ad script can target #ad-slot-1/2/3 later
+     without any template changes; swap this back to `display: flex`
+     (matching align-items/justify-content below) once a real ad fills it. */
+  display: none;
   border: 1px dashed var(--ad-border);
   border-radius: var(--radius-lg);
   background: var(--ad-bg);
   min-height: 250px;
-  display: flex;
   align-items: center;
   justify-content: center;
   color: var(--ad-text);

@@ -449,6 +449,27 @@ function replaceHistoryBlock(html, rowsHtml) {
   }
 }
 
+// Strips the editor-facing "SOURCE TEMPLATE / TOKEN REFERENCE" documentation
+// comment that opens <head> in both templates. It exists purely to guide
+// humans editing the template files and was never meant to reach production:
+// left in, the literal string-replace in renderTokens() fills its token list
+// with real values too, shipping a several-KB comment full of raw data
+// (including the pre-conversion domain placeholder) into every generated
+// page. Removes only the first <!-- ... --> immediately after <head>, so the
+// later structured-data and inline comments elsewhere in the template are
+// left untouched.
+function stripHeadDocComment(html) {
+  const headIdx = html.indexOf('<head>');
+  if (headIdx === -1) return html;
+  const commentStart = html.indexOf('<!--', headIdx);
+  if (commentStart === -1) return html;
+  const commentEnd = html.indexOf('-->', commentStart);
+  if (commentEnd === -1) return html;
+  let end = commentEnd + 3;
+  if (html[end] === '\n') end++;
+  return html.slice(0, commentStart) + html.slice(end);
+}
+
 // Plain {{TOKEN}} -> value substitution for everything else. split/join
 // (not a regex .replace) so a value containing "$"-prefixed sequences can
 // never be misinterpreted as a replacement pattern.
@@ -615,8 +636,8 @@ async function main() {
     canonicalUrl: `${SITE_URL}/silver.html`,
   });
 
-  const goldTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'index.template.html'), 'utf8');
-  const silverTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'silver.template.html'), 'utf8');
+  const goldTemplate = stripHeadDocComment(fs.readFileSync(path.join(TEMPLATES_DIR, 'index.template.html'), 'utf8'));
+  const silverTemplate = stripHeadDocComment(fs.readFileSync(path.join(TEMPLATES_DIR, 'silver.template.html'), 'utf8'));
 
   const goldRowsHtml = buildHistoryRowsHtml(data.gold.history, GOLD_HISTORY_KEYS);
   const silverRowsHtml = buildHistoryRowsHtml(data.silver.history, SILVER_HISTORY_KEYS);

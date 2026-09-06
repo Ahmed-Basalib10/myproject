@@ -798,6 +798,30 @@ main {
 
 .site-footer__copy { color: rgba(255, 255, 255, 0.7); }
 
+/* Link color deliberately doesn't use --link: on brand-ink's fixed dark
+   background (unaffected by the theme toggle), light mode's --link is
+   2.05:1 and even dark mode's is only 4.28:1 — both fail or barely miss
+   AA. Inheriting this element's own already-verified 5.68:1 text color
+   and relying on the underline to signal "link" sidesteps that. */
+.site-footer__about {
+  max-width: 42rem;
+  margin: 0 auto;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.8;
+  text-align: center;
+}
+
+.site-footer__about a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.site-footer__about a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
 .site-footer__disclaimer {
   margin: 0;
   font-size: 0.75rem;

@@ -102,12 +102,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 
-<!-- Product/Offer schema deliberately omits hasMerchantReturnPolicy,
-     shippingDetails, and availability (all optional per Google's Rich
-     Results check) — this is a live spot price, nothing is sold or
-     shipped or held in stock, so those fields have no real value to
-     report. Don't add placeholder/fake data just to silence a
-     "non-critical" warning; leaving them absent is correct. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -136,11 +130,6 @@
 }
 </script>
 
-<!-- Site-wide identity markup (same on every page) so Google can reliably
-     show "سعر الذهب في السعودية" as the search result site name instead of
-     the raw domain — this is Google's documented mechanism for that
-     feature, not just an og:site_name hint. logo points at the real
-     512x512 app icon asset (there is no separate logo.png in this repo). -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -375,14 +364,6 @@
 
   <section class="section" aria-labelledby="market-prices-title">
     <h2 id="market-prices-title" class="section__title">أسعار السوق (بيع مستعمل وشراء جديد)</h2>
-    <!--
-      ESTIMATE, NOT VERIFIED MARKET DATA. Placeholder markup logic per
-      scripts/update-prices.js, to be replaced with real Saudi market
-      percentages once known:
-        بيع مستعمل (sell used) = سعر الجرام الفوري − 5 ريال ثابت
-        شراء جديد  (buy new)   = سعر الجرام الفوري + هامش تقديري:
-                                   عيار 22 ‎+17%‎، عيار 21 ‎+18%‎، عيار 18 ‎+34%‎
-    -->
     <div class="card table-scroll">
       <table class="data-table data-table--gold">
         <caption class="sr-only">أسعار بيع الذهب المستعمل وشراء الذهب الجديد تقديرياً حسب العيار</caption>

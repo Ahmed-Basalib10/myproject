@@ -491,6 +491,7 @@ main {
 }
 
 .hero__updated {
+  margin: 0;
   border-top: 1px solid var(--rule);
   padding-top: var(--space-3);
   font-size: 0.8125rem;

@@ -91,7 +91,7 @@
     "history": [
       {
         "date": "2026-10-10",
-        "ounceSar": 228.075,
+        "ounceSar": 228.09,
         "grams": {
           "800": 5.8667074801103904,
           "925": 6.783003757316288,
@@ -141,10 +141,10 @@
       }
     ],
     "current": {
-      "ounceUsd": 60.82,
-      "ounceSar": 228.075,
-      "ounceSellSar": 227.60625,
-      "ounceBuySar": 228.54375,
+      "ounceUsd": 60.824,
+      "ounceSar": 228.09,
+      "ounceSellSar": 227.62125,
+      "ounceBuySar": 228.55875,
       "grams": {
         "750": {
           "usd": 1.4665760972296067,
@@ -177,6 +177,6 @@
       }
     }
   },
-  "lastUpdatedIso": "2026-10-10T00:00:59.252+03:00",
+  "lastUpdatedIso": "2026-10-10T00:15:56.856+03:00",
   "usdSarRate": 3.75
 }
